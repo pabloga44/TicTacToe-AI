@@ -1,4 +1,5 @@
 # Test game
+from functions import *
 
 # Introduction
 print("\n\nWelcome to the TicTacToe AI test game.\n")
@@ -25,21 +26,40 @@ else:
 
 
 # Start the game
-n = 3
-# board = create_board(n) -- TO DO
+# n = 3
+board = create_board()
+print_board(board)
+
 end = False
 
 while (end == False):
     if player_turn:
-        i = input("Enter your row: ")
-        j = input("Enter your column: ")
-        print(f"Your square is ({i},{j})")
 
-        #board = move(board, i, j) # Information about who is the one that moves is redundant
+
+        while True:
+            try:
+                i = int(input("Enter your row: ")) - 1  # We already change it to 0-2 format
+                break
+            except ValueError:
+                print("Please input integer only...")  
+                continue
+        while True:
+            try:
+                j = int(input("Enter your column: ")) - 1  # We already change it to 0-2 format
+                break
+            except ValueError:
+                print("Please input integer only...")  
+                continue
+
+        print(f"Your square (in matrix notation) is ({i},{j})")
+
+        board = move(board, i, j) # Information about who is the one that moves is redundant
+        print_board(board)
 
     else: 
-        #i,j = random_move(board) -- TO DO
+        i,j = random_move(board) # HERE IT WILL GO THE AI
         board = move(board, i, j)
+        print_board(board)
 
     #if(winner(board) != 0): end = True -- TO DO
 
