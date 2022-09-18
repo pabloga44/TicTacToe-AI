@@ -35,8 +35,13 @@ while (end == False):
         j = input("Enter your column: ")
         print(f"Your square is ({i},{j})")
 
-        board = move(board, i, j, "???")
+        #board = move(board, i, j) # Information about who is the one that moves is redundant
 
+    else: 
+        #i,j = random_move(board) -- TO DO
+        board = move(board, i, j)
+
+    #if(winner(board) != 0): end = True -- TO DO
 
     player_turn = not player_turn
     # End of while
