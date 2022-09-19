@@ -35,15 +35,27 @@ end = False
 while (end == False):
     if player_turn:
 
-
-        
-        while True:
+        valid_i = False
+        while (not valid_i):
+            try:
+                i = int(input("Enter your row: ")) - 1  # We already change it to 0-2 format
+                if (i in [0,1,2]):
+                    valid_i = True
+                else:
+                    print("Please enter a valid row (1,2,3)")
+            except ValueError:
+                print("Please enter a valid row (1,2,3)")  
+                
+        valid_j = False
+        while (not valid_j):
             try:
                 j = int(input("Enter your column: ")) - 1  # We already change it to 0-2 format
-                break
+                if (j in [0,1,2]):
+                    valid_j = True
+                else:
+                    print("Please enter a valid column (1,2,3)")
             except ValueError:
-                print("Please input integer only...")  
-                continue
+                print("Please enter a valid column (1,2,3)")  
 
         print(f"Your square (in matrix notation) is ({i},{j})")
 
