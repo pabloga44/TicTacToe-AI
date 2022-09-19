@@ -29,9 +29,9 @@ else:
 board = create_board()
 print_board(board)
 
-end = False
-
-while (end == False):
+winner = 0
+count = 1
+while ((winner == 0) and count <= 9):
     if player_turn:
 
         valid_move = False
@@ -47,14 +47,20 @@ while (end == False):
         print_board(board)
 
     else: 
+        print("My turn:")
         i,j = random_move(board) # HERE IT WILL GO THE AI
         board = move(board, i, j)
         print_board(board)
 
-    #if(winner(board) != 0): end = True -- TO DO
+    #winner = board_winner(board)
+    count += 1
 
     player_turn = not player_turn
     # End of while
 
-
-
+if (winner == 1): print("X wins -- TO DO Say who won")
+elif (winner == 2): print("O wins -- TO DO Say who won")
+elif (winner == 0): print("Tie!")
+else:
+    raise Exception("Winner is undefined")
+print("\nBy Pablo Gallego Adrián.")

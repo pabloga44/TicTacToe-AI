@@ -16,11 +16,13 @@ def print_board(board):
             if (board[i,j] == 1): A[i][j] = "X"
             elif (board[i,j] == 2): A[i][j] = "O"
     
+    print("\n")
     print(f"    {A[0][0]} | {A[0][1]} | {A[0][2]}")
     print("   ___________")
     print(f"    {A[1][0]} | {A[1][1]} | {A[1][2]}")
     print("   ___________")
     print(f"    {A[2][0]} | {A[2][1]} | {A[2][2]}")
+    print("\n")
 
     return
 
@@ -85,3 +87,7 @@ def input_coordinates():
             print("Please enter a valid column (1,2,3)")
 
     return i, j
+
+
+def board_winner():
+    return
