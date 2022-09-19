@@ -36,13 +36,7 @@ while (end == False):
     if player_turn:
 
 
-        while True:
-            try:
-                i = int(input("Enter your row: ")) - 1  # We already change it to 0-2 format
-                break
-            except ValueError:
-                print("Please input integer only...")  
-                continue
+        
         while True:
             try:
                 j = int(input("Enter your column: ")) - 1  # We already change it to 0-2 format
