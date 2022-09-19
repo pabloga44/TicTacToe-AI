@@ -6,6 +6,7 @@ print("\n\nWelcome to the TicTacToe AI test game.\n")
 
 name = input("Introduce your name: ")
 print("Hi " + name + ", I'm TicAI!")
+
 print("To choose a square, write the number of the row and column (Ex: 1 3)\n")
 
 
@@ -34,8 +35,21 @@ end = False
 while (end == False):
     if player_turn:
 
-        # Ask the player to choose their square
-        i, j = input_coordinates()  
+
+        while True:
+            try:
+                i = int(input("Enter your row: ")) - 1  # We already change it to 0-2 format
+                break
+            except ValueError:
+                print("Please input integer only...")  
+                continue
+        while True:
+            try:
+                j = int(input("Enter your column: ")) - 1  # We already change it to 0-2 format
+                break
+            except ValueError:
+                print("Please input integer only...")  
+                continue
 
         print(f"Your square (in matrix notation) is ({i},{j})")
 
