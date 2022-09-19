@@ -57,3 +57,31 @@ def random_move(board):
         # If its empty we return it
         if (board[i,j] == 0): 
             return i,j
+
+
+def input_coordinates():
+    # Ask the user for a row and column to move
+
+    valid_i = False
+    while (not valid_i):
+        try: # In case the user doesn't introduce an integer
+            i = int(input("Enter your row: ")) - 1  # We already change it to 0-2 format
+            if (i in [0,1,2]): # In case the user introduces a different integer
+                valid_i = True
+            else:
+                print("Please enter a valid row (1,2,3)")
+        except ValueError:
+            print("Please enter a valid row (1,2,3)")  
+            
+    valid_j = False
+    while (not valid_j):
+        try:
+            j = int(input("Enter your column: ")) - 1  # We already change it to 0-2 format
+            if (j in [0,1,2]):
+                valid_j = True
+            else:
+                print("Please enter a valid column (1,2,3)")
+        except ValueError:
+            print("Please enter a valid column (1,2,3)")
+
+    return i, j
