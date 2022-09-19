@@ -88,6 +88,16 @@ def input_coordinates():
 
     return i, j
 
+def show_winner_end(winner):
+    # Ends the game by showing who won and the credits
+    # ---- TO DO: Specify who won------
+    if (winner == 1): print("X wins -- TO DO Say who won")
+    elif (winner == 2): print("O wins -- TO DO Say who won")
+    elif (winner == 0): print("Tie!")
+    else:
+        raise Exception("Winner is undefined")
+    print("\nBy Pablo Gallego Adrián.")
+
 
 def board_winner():
     return

@@ -58,9 +58,4 @@ while ((winner == 0) and count <= 9):
     player_turn = not player_turn
     # End of while
 
-if (winner == 1): print("X wins -- TO DO Say who won")
-elif (winner == 2): print("O wins -- TO DO Say who won")
-elif (winner == 0): print("Tie!")
-else:
-    raise Exception("Winner is undefined")
-print("\nBy Pablo Gallego Adrián.")
+show_winner_end(winner)
