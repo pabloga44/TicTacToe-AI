@@ -17,9 +17,11 @@ while (xo not in ["X","O","x","o"]):
 
 if (xo in ["X","x"]): 
     print("Great, then you will start.")
+    player_team = 1
     player_turn = True
 else: 
     print("Great, then I will start.")
+    player_team = 2
     player_turn = False
 
 
@@ -52,10 +54,10 @@ while ((winner == 0) and count <= 9):
         board = move(board, i, j)
         print_board(board)
 
-    #winner = board_winner(board)
+    winner = board_winner(board)
     count += 1
 
     player_turn = not player_turn
     # End of while
 
-show_winner_end(winner)
+show_winner_end(winner, player_team=player_team, name=name)

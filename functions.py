@@ -101,14 +101,23 @@ def input_coordinates():
 
     return i, j
 
-def show_winner_end(winner):
-    # Ends the game by showing who won and the credits
-    # ---- TO DO: Specify who won------
+def show_team_winner_end(winner):
+    # Ends the game by showing which team won and the credits
+    
     if (winner == 1): print("X wins -- TO DO Say who won")
     elif (winner == 2): print("O wins -- TO DO Say who won")
     elif (winner == 0): print("Tie!")
     else:
         raise Exception("Winner is undefined")
+    print("\nBy Pablo Gallego Adrián.")
+
+def show_winner_end(winner, player_team, name):
+    # Ends the game by showing who won and the credits
+    
+    if(winner == 0): print("It's a tie!")
+    elif (winner == player_team): print("Congratulations "+name+", you won!")
+    else: print("I'm sorry "+name+ ", but I won!")    
+
     print("\nBy Pablo Gallego Adrián.")
 
 
