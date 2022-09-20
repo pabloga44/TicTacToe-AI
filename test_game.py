@@ -1,4 +1,3 @@
-from venv import create
 import functions
 import sys
 
@@ -16,6 +15,7 @@ def test_move():
     """Test a couple of movements in the board, check that it doesn't crash
     when selecting an occupied square"""
 
+    # Create board and first move
     board = functions.create_board()
     board = functions.move(board,1,1)
     
@@ -26,11 +26,13 @@ def test_move():
     except IndexError:
         pass
 
+    # Check that it doesn't allow me to rewrite a square
     try:
         board = functions.move(board,1,1)
         raise Exception("Error in test move: didn't fail when trying to rewrite a square.")
-    
     except functions.OccupiedSquare:
         pass
+
+    # Another normal move
     board = functions.move(board,1,2)
     return
