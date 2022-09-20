@@ -109,5 +109,4 @@ def show_winner_end(winner):
 def board_winner():
     # Return the winner of the board 1 o 2 (X o O)
     print("Test text")
-
     return
