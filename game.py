@@ -41,7 +41,7 @@ while ((winner == 0) and count <= 9):
             try:
                 board = move(board, i, j) 
                 valid_move = True
-            except Exception as ex:
+            except OccupiedSquare as ex: # We only catch if the square is occupied, not the other error, that is worse
                 print(f"  {ex} Please enter again your square.")
 
         print_board(board)

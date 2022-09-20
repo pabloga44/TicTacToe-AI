@@ -27,12 +27,19 @@ def print_board(board):
     return
 
 
+# We create a custom exception for when the player chooses one filled box
+# We don't want the other possible error, that the board is wrong, 
+#   beacuse that error is much worse and must be studied
+class OccupiedSquare(Exception):
+    # The selected squared has been already filled
+    pass
+
 def move(board, i, j):
     # Takes one board and a square and executes the correspondand move
 
     # First check that square is avaliable
     if (board[i,j] != 0):
-        raise Exception("Error in move: selected square is already filled.")
+        raise OccupiedSquare("Error in move: selected square is already filled.")
 
     # Calculate whose turn is it
     nX = sum(sum(board == 1))
@@ -72,7 +79,7 @@ def input_coordinates():
                 valid_i = True
             else:
                 print("Please enter a valid row (1,2,3)")
-        except ValueError:
+        except ValueError: # If we enter not integer to int it raises ValueError
             print("Please enter a valid row (1,2,3)")  
             
     valid_j = False
