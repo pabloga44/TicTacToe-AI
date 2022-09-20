@@ -2,6 +2,19 @@
 import numpy as np
 import random as rand
 
+
+class WrongBoard(Exception):
+    """A board that is impossible was reached."""
+    pass
+
+# We create a custom exception for when the player chooses one filled box
+# We don't want the other possible error, that the board is wrong, 
+#   beacuse that error is much worse and must be studied
+class OccupiedSquare(Exception):
+    # The selected squared has been already filled
+    pass
+
+
 def create_board():
     # Generate empty board (3x3) full of 0s
     return np.zeros((3,3), np.int8)
@@ -27,13 +40,6 @@ def print_board(board):
     return
 
 
-# We create a custom exception for when the player chooses one filled box
-# We don't want the other possible error, that the board is wrong, 
-#   beacuse that error is much worse and must be studied
-class OccupiedSquare(Exception):
-    # The selected squared has been already filled
-    pass
-
 def move(board, i, j):
     # Takes one board and a square and executes the correspondand move
 
@@ -47,7 +53,7 @@ def move(board, i, j):
 
     if ( (nX - nO) == 1 ): turn = 2 # Turn for Os
     elif ( nX == nO ): turn = 1 # Turn for Xs
-    else: raise Exception("Error in move: incorrect board.")
+    else: raise WrongBoard("Error in move: incorrect board.")
 
     # Fill square
     board[i,j] = turn
@@ -106,7 +112,35 @@ def show_winner_end(winner):
     print("\nBy Pablo Gallego Adrián.")
 
 
-def board_winner():
+def board_winner(A):
     # Return the winner of the board 1 o 2 (X o O)
-    print("Test text")
-    return
+    
+    # Also check that there is no 2 or more lines
+    count = 0
+    winner = 0
+
+    # Columns and rows
+    for i in range(3):
+        
+        # Rows
+        if ((A[i,0] == A[i,1] == A[i,2]) & (A[i,0] != 0)): 
+            count += 1
+            winner = A[i,0]
+        # Columns
+        if((A[0,i] == A[1,i] == A[2,i]) & (A[0,i] != 0)): 
+            count += 1
+            winner = A[0,i]
+            
+    # Diagonals
+    if ((A[0,0] == A[1,1] == A[2,2]) & (A[1,1] != 0)): 
+            count += 1
+            winner = A[1,1]
+    if ((A[0,2] == A[1,1] == A[2,0]) & (A[1,1] != 0)): 
+            count += 1
+            winner = A[1,1]
+
+    # Check only one line
+    if count > 1: 
+        raise WrongBoard("Error in board_winner - more than one winner line.")
+    else:
+        return winner

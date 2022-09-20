@@ -1,5 +1,6 @@
 import functions
 import sys
+import numpy as np
 
 def test_input_coordinates():
     """Test the inputation of coordinates by the user"""
@@ -35,4 +36,26 @@ def test_move():
 
     # Another normal move
     board = functions.move(board,1,2)
+    return
+
+
+def test_winner():
+    """Test the function that evaluates a board and return its winner (X or O)"""
+
+    board1 = np.array([[1,1,1],[0,2,0],[1,2,2]])
+    assert functions.board_winner(board1) == 1
+
+    board2 = np.array([[2,1,1],[0,2,0],[1,2,2]])
+    assert functions.board_winner(board2) == 2
+
+    board3 = np.array([[0,1,1],[0,2,0],[1,0,2]])
+    assert functions.board_winner(board3) == 0
+
+    try:
+        board4 = np.array([[1,1,1],[0,2,0],[2,2,2]])
+        w = functions.board_winner(board4)
+        raise Exception("Test_winner: it accepted a wrong board.")
+    except functions.WrongBoard:
+        pass
+
     return
