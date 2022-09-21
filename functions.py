@@ -11,17 +11,17 @@ class WrongBoard(Exception):
 # We don't want the other possible error, that the board is wrong, 
 #   beacuse that error is much worse and must be studied
 class OccupiedSquare(Exception):
-    # The selected squared has been already filled
+    """The selected squared has been already filled"""
     pass
 
 
 def create_board():
-    # Generate empty board (3x3) full of 0s
+    """Generate empty board (3x3) full of 0s"""
     return np.zeros((3,3), np.int8)
     
 
 def print_board(board):
-    # Print board (only for 3x3)
+    """Print board (only for 3x3)"""
     A = [[".",".","."],[".",".","."],[".",".","."]]
 
     for i in range(3):
@@ -41,7 +41,7 @@ def print_board(board):
 
 
 def move(board, i, j):
-    # Takes one board and a square and executes the correspondand move
+    """Takes one board and a square and executes the correspondand move"""
 
     # First check that square is avaliable
     if (board[i,j] != 0):
@@ -62,7 +62,7 @@ def move(board, i, j):
 
 
 def random_move(board):
-    # Select a random empty square of the board
+    """Select a random empty square of the board"""
 
     while(True):
         # Generate random square
@@ -75,7 +75,7 @@ def random_move(board):
 
 
 def input_coordinates():
-    # Ask the user for a row and column to move
+    """Ask the user for a row and column to move"""
 
     valid_i = False
     while (not valid_i):
@@ -102,7 +102,7 @@ def input_coordinates():
     return i, j
 
 def show_team_winner_end(winner):
-    # Ends the game by showing which team won and the credits
+    """Ends the game by showing which team won and the credits"""
     
     if (winner == 1): print("X wins -- TO DO Say who won")
     elif (winner == 2): print("O wins -- TO DO Say who won")
@@ -112,7 +112,7 @@ def show_team_winner_end(winner):
     print("\nBy Pablo Gallego Adrián.")
 
 def show_winner_end(winner, player_team, name):
-    # Ends the game by showing who won and the credits
+    """Ends the game by showing who won and the credits"""
     
     if(winner == 0): print("It's a tie!")
     elif (winner == player_team): print("Congratulations "+name+", you won!")
@@ -122,7 +122,7 @@ def show_winner_end(winner, player_team, name):
 
 
 def board_winner(A):
-    # Return the winner of the board 1 o 2 (X o O)
+    """Return the winner of the board 1 o 2 (X o O)"""
     
     # Also check that there is no 2 or more lines
     count = 0
