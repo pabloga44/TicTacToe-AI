@@ -1,5 +1,5 @@
 # Test game
-from functions import *
+from classes import *
 
 # Introduction
 print("\n\nWelcome to the TicTacToe AI test game.\n")
@@ -28,8 +28,8 @@ else:
 
 # Start the game
 # n = 3
-board = create_board()
-print_board(board)
+board = Board()
+board.show()
 
 winner = 0
 count = 1
@@ -39,25 +39,22 @@ while ((winner == 0) and count <= 9):
         valid_move = False
         while (not valid_move):
             # Ask the player to choose their square
-            i, j = input_coordinates()  
+            i, j = GameCommunication.input_coordinates()  
             try:
-                board = move(board, i, j) 
+                board.move(i, j) 
                 valid_move = True
             except OccupiedSquare as ex: # We only catch if the square is occupied, not the other error, that is worse
-                print(f"  {ex} Please enter again your square.")
-
-        print_board(board)
+                print(f"  {ex} Please enter your square again.")
 
     else: 
         print("My turn:")
-        i,j = random_move(board) # HERE IT WILL GO THE AI
-        board = move(board, i, j)
-        print_board(board)
-
-    winner = board_winner(board)
+        board.random_move()
+        
+    board.show()
+    winner = board.get_winner()
     count += 1
 
     player_turn = not player_turn
     # End of while
 
-show_winner_end(winner, player_team=player_team, name=name)
+GameCommunication.show_winner_end(winner, player_team=player_team, name=name)

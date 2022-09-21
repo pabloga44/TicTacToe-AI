@@ -80,7 +80,6 @@ def test_set():
     board.set_board(np.array([[0,2,1],[0,2,0],[2,0,2]]))
     assert (board.board == np.array([[0,2,1],[0,2,0],[2,0,2]])).all()
 
-        
 
 def test_winner():
     """Test the function that evaluates a board and return its winner (X or O)"""

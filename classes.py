@@ -91,6 +91,7 @@ class Board:
             # If its empty we return it
             if (self.board[i,j] == 0): 
                 self.move(i,j)
+                return
 
     def get_winner(self):
         """Return the winner of the board 1 o 2 (X o O)"""
