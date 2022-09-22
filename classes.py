@@ -1,5 +1,6 @@
 import numpy as np
 import random as rand
+import time
 
 class WrongBoard(Exception):
     """A board that is impossible was reached."""
@@ -182,10 +183,13 @@ class GameCommunication:
     def user_introduction():
         """Introduce the game for the user, asking name and team."""
 
+        _t = 1 # Waiting time between sentences in s
         print("\n\nWelcome to the TicTacToe AI test game.\n")
+        time.sleep(_t)
 
         name = input("Introduce your name: ")
         print("Hi " + name + ", I'm TicAI!")
+        time.sleep(_t)
         print("To choose a square, write the number of the row and column (Ex: 1 3)\n")
 
 
@@ -203,6 +207,7 @@ class GameCommunication:
             print("Great, then I will start.")
             player_team = 2
             player_turn = False
+        time.sleep(_t)
 
         return name, player_team, player_turn
 

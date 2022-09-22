@@ -2,7 +2,6 @@
 from classes import *
 import sys
 
-
 def main(argv, arc):
 
     if (arc > 1):
@@ -45,10 +44,12 @@ def main(argv, arc):
                 board.random_move()
 
         else: # Machine moves
-            print("My turn:")
+            print("My turn, let me think...")
+            if user: time.sleep(1.5)
             board.random_move()
             
         board.show()
+        if user: time.sleep(0.5)
         winner = board.get_winner()
         count += 1
 
