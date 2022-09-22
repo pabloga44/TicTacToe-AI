@@ -26,7 +26,7 @@ class Board:
         """Return string description."""
         return f"{type(self).__name__}\n(board={self.board})"
 
-    def set_board(self, new_board):
+    def set_board(self, new_board: np.ndarray):
         """Set manually the values of all the board.
         This function should be private and never used by the user."""
 
@@ -62,7 +62,7 @@ class Board:
         print(f"    {A[2][0]} | {A[2][1]} | {A[2][2]}")
         print("\n")
 
-    def move(self, i, j):
+    def move(self, i: int, j: int):
         """Takes one board and a square and executes the correspondand move"""
 
         # First check that square is avaliable
@@ -161,7 +161,7 @@ class GameCommunication:
 
         return i, j
 
-    def show_team_winner_end(winner):
+    def show_team_winner_end(winner: int):
         """Ends the game by showing which team won and the credits"""
         
         if (winner == 1): print("X wins -- TO DO Say who won")
@@ -171,7 +171,7 @@ class GameCommunication:
             raise Exception("Winner is undefined")
         print("\nBy Pablo Gallego Adrián.")
 
-    def show_winner_end(winner, player_team, name):
+    def show_winner_end(winner: int, player_team: int, name: str):
         """Ends the game by showing who won and the credits"""
         
         if(winner == 0): print("It's a tie!")
@@ -220,3 +220,12 @@ class GameCommunication:
         player_team = 1
         player_turn = True
         return name, player_team, player_turn
+
+
+class TicTacTocIA():
+    """The TicTacTocIA class contains the Artificial Inteligece engine build to play (and win) the game."""
+
+    def best_move(board: Board):
+        """Takes one Board object and calculates the next best move for whoever is the next player to move.
+        Returns the coordinates of the move."""
+        pass
