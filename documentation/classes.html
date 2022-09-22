@@ -54,7 +54,7 @@ class Board:
         &#34;&#34;&#34;Return string description.&#34;&#34;&#34;
         return f&#34;{type(self).__name__}\n(board={self.board})&#34;
 
-    def set_board(self, new_board):
+    def set_board(self, new_board: np.ndarray):
         &#34;&#34;&#34;Set manually the values of all the board.
         This function should be private and never used by the user.&#34;&#34;&#34;
 
@@ -90,7 +90,7 @@ class Board:
         print(f&#34;    {A[2][0]} | {A[2][1]} | {A[2][2]}&#34;)
         print(&#34;\n&#34;)
 
-    def move(self, i, j):
+    def move(self, i: int, j: int):
         &#34;&#34;&#34;Takes one board and a square and executes the correspondand move&#34;&#34;&#34;
 
         # First check that square is avaliable
@@ -189,7 +189,7 @@ class GameCommunication:
 
         return i, j
 
-    def show_team_winner_end(winner):
+    def show_team_winner_end(winner: int):
         &#34;&#34;&#34;Ends the game by showing which team won and the credits&#34;&#34;&#34;
         
         if (winner == 1): print(&#34;X wins -- TO DO Say who won&#34;)
@@ -199,7 +199,7 @@ class GameCommunication:
             raise Exception(&#34;Winner is undefined&#34;)
         print(&#34;\nBy Pablo Gallego Adrián.&#34;)
 
-    def show_winner_end(winner, player_team, name):
+    def show_winner_end(winner: int, player_team: int, name: str):
         &#34;&#34;&#34;Ends the game by showing who won and the credits&#34;&#34;&#34;
         
         if(winner == 0): print(&#34;It&#39;s a tie!&#34;)
@@ -247,7 +247,16 @@ class GameCommunication:
         name = &#34;me&#34;
         player_team = 1
         player_turn = True
-        return name, player_team, player_turn</code></pre>
+        return name, player_team, player_turn
+
+
+class TicTacTocIA():
+    &#34;&#34;&#34;The TicTacTocIA class contains the Artificial Inteligece engine build to play (and win) the game.&#34;&#34;&#34;
+
+    def best_move(board: Board):
+        &#34;&#34;&#34;Takes one Board object and calculates the next best move for whoever is the next player to move.
+        Returns the coordinates of the move.&#34;&#34;&#34;
+        pass</code></pre>
 </details>
 </section>
 <section>
@@ -284,7 +293,7 @@ It contains the necesary methods to create, show and transform the board.</p>
         &#34;&#34;&#34;Return string description.&#34;&#34;&#34;
         return f&#34;{type(self).__name__}\n(board={self.board})&#34;
 
-    def set_board(self, new_board):
+    def set_board(self, new_board: np.ndarray):
         &#34;&#34;&#34;Set manually the values of all the board.
         This function should be private and never used by the user.&#34;&#34;&#34;
 
@@ -320,7 +329,7 @@ It contains the necesary methods to create, show and transform the board.</p>
         print(f&#34;    {A[2][0]} | {A[2][1]} | {A[2][2]}&#34;)
         print(&#34;\n&#34;)
 
-    def move(self, i, j):
+    def move(self, i: int, j: int):
         &#34;&#34;&#34;Takes one board and a square and executes the correspondand move&#34;&#34;&#34;
 
         # First check that square is avaliable
@@ -437,7 +446,7 @@ It contains the necesary methods to create, show and transform the board.</p>
 </details>
 </dd>
 <dt id="classes.Board.move"><code class="name flex">
-<span>def <span class="ident">move</span></span>(<span>self, i, j)</span>
+<span>def <span class="ident">move</span></span>(<span>self, i: int, j: int)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Takes one board and a square and executes the correspondand move</p></div>
@@ -445,7 +454,7 @@ It contains the necesary methods to create, show and transform the board.</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def move(self, i, j):
+<pre><code class="python">def move(self, i: int, j: int):
     &#34;&#34;&#34;Takes one board and a square and executes the correspondand move&#34;&#34;&#34;
 
     # First check that square is avaliable
@@ -490,7 +499,7 @@ Note: different that previous random_move function, because doesn't return coord
 </details>
 </dd>
 <dt id="classes.Board.set_board"><code class="name flex">
-<span>def <span class="ident">set_board</span></span>(<span>self, new_board)</span>
+<span>def <span class="ident">set_board</span></span>(<span>self, new_board: numpy.ndarray)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Set manually the values of all the board.
@@ -499,7 +508,7 @@ This function should be private and never used by the user.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def set_board(self, new_board):
+<pre><code class="python">def set_board(self, new_board: np.ndarray):
     &#34;&#34;&#34;Set manually the values of all the board.
     This function should be private and never used by the user.&#34;&#34;&#34;
 
@@ -586,7 +595,7 @@ This function should be private and never used by the user.</p></div>
 
         return i, j
 
-    def show_team_winner_end(winner):
+    def show_team_winner_end(winner: int):
         &#34;&#34;&#34;Ends the game by showing which team won and the credits&#34;&#34;&#34;
         
         if (winner == 1): print(&#34;X wins -- TO DO Say who won&#34;)
@@ -596,7 +605,7 @@ This function should be private and never used by the user.</p></div>
             raise Exception(&#34;Winner is undefined&#34;)
         print(&#34;\nBy Pablo Gallego Adrián.&#34;)
 
-    def show_winner_end(winner, player_team, name):
+    def show_winner_end(winner: int, player_team: int, name: str):
         &#34;&#34;&#34;Ends the game by showing who won and the credits&#34;&#34;&#34;
         
         if(winner == 0): print(&#34;It&#39;s a tie!&#34;)
@@ -706,7 +715,7 @@ This function should be private and never used by the user.</p></div>
 </details>
 </dd>
 <dt id="classes.GameCommunication.show_team_winner_end"><code class="name flex">
-<span>def <span class="ident">show_team_winner_end</span></span>(<span>winner)</span>
+<span>def <span class="ident">show_team_winner_end</span></span>(<span>winner: int)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Ends the game by showing which team won and the credits</p></div>
@@ -714,7 +723,7 @@ This function should be private and never used by the user.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def show_team_winner_end(winner):
+<pre><code class="python">def show_team_winner_end(winner: int):
     &#34;&#34;&#34;Ends the game by showing which team won and the credits&#34;&#34;&#34;
     
     if (winner == 1): print(&#34;X wins -- TO DO Say who won&#34;)
@@ -726,7 +735,7 @@ This function should be private and never used by the user.</p></div>
 </details>
 </dd>
 <dt id="classes.GameCommunication.show_winner_end"><code class="name flex">
-<span>def <span class="ident">show_winner_end</span></span>(<span>winner, player_team, name)</span>
+<span>def <span class="ident">show_winner_end</span></span>(<span>winner: int, player_team: int, name: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Ends the game by showing who won and the credits</p></div>
@@ -734,7 +743,7 @@ This function should be private and never used by the user.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def show_winner_end(winner, player_team, name):
+<pre><code class="python">def show_winner_end(winner: int, player_team: int, name: str):
     &#34;&#34;&#34;Ends the game by showing who won and the credits&#34;&#34;&#34;
     
     if(winner == 0): print(&#34;It&#39;s a tie!&#34;)
@@ -807,6 +816,43 @@ This function should be private and never used by the user.</p></div>
 <li>builtins.BaseException</li>
 </ul>
 </dd>
+<dt id="classes.TicTacTocIA"><code class="flex name class">
+<span>class <span class="ident">TicTacTocIA</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>The TicTacTocIA class contains the Artificial Inteligece engine build to play (and win) the game.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TicTacTocIA():
+    &#34;&#34;&#34;The TicTacTocIA class contains the Artificial Inteligece engine build to play (and win) the game.&#34;&#34;&#34;
+
+    def best_move(board: Board):
+        &#34;&#34;&#34;Takes one Board object and calculates the next best move for whoever is the next player to move.
+        Returns the coordinates of the move.&#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="classes.TicTacTocIA.best_move"><code class="name flex">
+<span>def <span class="ident">best_move</span></span>(<span>board: <a title="classes.Board" href="#classes.Board">Board</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Takes one Board object and calculates the next best move for whoever is the next player to move.
+Returns the coordinates of the move.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def best_move(board: Board):
+    &#34;&#34;&#34;Takes one Board object and calculates the next best move for whoever is the next player to move.
+    Returns the coordinates of the move.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
 <dt id="classes.WrongBoard"><code class="flex name class">
 <span>class <span class="ident">WrongBoard</span></span>
 <span>(</span><span>*args, **kwargs)</span>
@@ -860,6 +906,12 @@ This function should be private and never used by the user.</p></div>
 </li>
 <li>
 <h4><code><a title="classes.OccupiedSquare" href="#classes.OccupiedSquare">OccupiedSquare</a></code></h4>
+</li>
+<li>
+<h4><code><a title="classes.TicTacTocIA" href="#classes.TicTacTocIA">TicTacTocIA</a></code></h4>
+<ul class="">
+<li><code><a title="classes.TicTacTocIA.best_move" href="#classes.TicTacTocIA.best_move">best_move</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="classes.WrongBoard" href="#classes.WrongBoard">WrongBoard</a></code></h4>
