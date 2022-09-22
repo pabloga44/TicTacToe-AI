@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# ----------- ADDED BY ME --------------
+
+# Venv folder
+TicTacToeVenv/
+
+# Personal notes
+notes.txt

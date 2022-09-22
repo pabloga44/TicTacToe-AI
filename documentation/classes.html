@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>classes API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>classes</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+import random as rand
+import time
+
+class WrongBoard(Exception):
+    &#34;&#34;&#34;A board that is impossible was reached.&#34;&#34;&#34;
+    pass
+
+
+class OccupiedSquare(Exception):
+    &#34;&#34;&#34;The selected squared has been already filled&#34;&#34;&#34;
+    pass
+
+
+class Board:
+
+    &#34;&#34;&#34;The Board class holds all the functionality of the game itself.
+    It contains the necesary methods to create, show and transform the board.&#34;&#34;&#34;
+
+    def __init__(self) -&gt; None:
+        &#34;&#34;&#34;Generate empty board (3x3) full of 0s.&#34;&#34;&#34;
+        self.board = np.zeros((3,3), np.int8)
+
+
+    def __repr__(self) -&gt; str:
+        &#34;&#34;&#34;Return string description.&#34;&#34;&#34;
+        return f&#34;{type(self).__name__}\n(board={self.board})&#34;
+
+    def set_board(self, new_board):
+        &#34;&#34;&#34;Set manually the values of all the board.
+        This function should be private and never used by the user.&#34;&#34;&#34;
+
+        # Check that it is an array
+        if (not isinstance(new_board, np.ndarray)):
+            raise WrongBoard(&#34;In set board - new board is not an array.&#34;)
+        # Check that it has the correct shape
+        elif (new_board.shape != (3,3)):
+            raise WrongBoard(&#34;In set board - wrong dimensions.&#34;)
+        # Check that it only contains valid values
+        elif (any(x not in [0,1,2] for x in np.nditer(new_board))):
+            raise WrongBoard(&#34;In set board - incorrect values in new board.&#34;)
+        # Assing the new board
+        else:
+            self.board = new_board
+
+
+    def show(self):
+        &#34;&#34;&#34;Print board (only for 3x3)&#34;&#34;&#34;
+
+        A = [[&#34;.&#34;,&#34;.&#34;,&#34;.&#34;],[&#34;.&#34;,&#34;.&#34;,&#34;.&#34;],[&#34;.&#34;,&#34;.&#34;,&#34;.&#34;]]
+
+        for i in range(3):
+            for j in range(3):
+                if (self.board[i,j] == 1): A[i][j] = &#34;X&#34;
+                elif (self.board[i,j] == 2): A[i][j] = &#34;O&#34;
+        
+        print(&#34;\n&#34;)
+        print(f&#34;    {A[0][0]} | {A[0][1]} | {A[0][2]}&#34;)
+        print(&#34;   ___________&#34;)
+        print(f&#34;    {A[1][0]} | {A[1][1]} | {A[1][2]}&#34;)
+        print(&#34;   ___________&#34;)
+        print(f&#34;    {A[2][0]} | {A[2][1]} | {A[2][2]}&#34;)
+        print(&#34;\n&#34;)
+
+    def move(self, i, j):
+        &#34;&#34;&#34;Takes one board and a square and executes the correspondand move&#34;&#34;&#34;
+
+        # First check that square is avaliable
+        if (self.board[i,j] != 0):
+            raise OccupiedSquare(&#34;Error in move: selected square is already filled.&#34;)
+
+        # Calculate whose turn is it
+        nX = sum(sum(self.board == 1))
+        nO = sum(sum(self.board == 2))
+
+        if ( (nX - nO) == 1 ): turn = 2 # Turn for Os
+        elif ( nX == nO ): turn = 1 # Turn for Xs
+        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+
+        # Fill square
+        self.board[i,j] = turn
+
+    def random_move(self):
+        &#34;&#34;&#34;Move in a random empty square of the board. 
+        Note: different that previous random_move function, because doesn&#39;t return coordinates, but it directly moves.&#34;&#34;&#34;
+
+        while(True):
+            # Generate random square
+            i = rand.randint(0,2)
+            j = rand.randint(0,2)
+
+            # If its empty we return it
+            if (self.board[i,j] == 0): 
+                self.move(i,j)
+                return
+
+    def get_winner(self):
+        &#34;&#34;&#34;Return the winner of the board 1 o 2 (X o O)&#34;&#34;&#34;
+        
+        # Also check that there are no 2 different winners
+        winner = []
+
+        # Columns and rows
+        for i in range(3):
+            
+            # Rows
+            if ((self.board[i,0] == self.board[i,1] == self.board[i,2]) &amp; (self.board[i,0] != 0)): 
+                winner.append(self.board[i,0])
+            # Columns
+            if((self.board[0,i] == self.board[1,i] == self.board[2,i]) &amp; (self.board[0,i] != 0)): 
+                winner.append(self.board[0,i])
+                
+        # Diagonals
+        if ((self.board[0,0] == self.board[1,1] == self.board[2,2]) &amp; (self.board[1,1] != 0)): 
+                winner.append(self.board[1,1])
+        if ((self.board[0,2] == self.board[1,1] == self.board[2,0]) &amp; (self.board[1,1] != 0)): 
+                winner.append(self.board[1,1])
+
+        _len = len(winner)
+
+        # Check only one winner
+        if _len == 0: # If no winner
+            return 0
+        elif (_len == 1): # If just one winner with 1 line
+            return winner[0]
+        elif ((_len == 2) &amp; (winner[0] == winner[1])): # The same winner with 2 lines
+            return winner[0] 
+        elif (_len == 2): # If two winner lines from different teams
+            raise WrongBoard(&#34;Error in board_winner - more than 1 winner.&#34;)
+        else: # 3 or more winner lines
+            raise WrongBoard(&#34;Error in board_winner - more than 2 winner lines.&#34;)
+
+
+class GameCommunication:
+    &#34;&#34;&#34;The GameCommunication class contains all the functions related with asking and showing information to the user during the game.&#34;&#34;&#34;
+
+    def input_coordinates():
+        &#34;&#34;&#34;Ask the user for a row and column to move&#34;&#34;&#34;
+
+        valid_i = False
+        while (not valid_i):
+            try: # In case the user doesn&#39;t introduce an integer
+                i = int(input(&#34;Enter your row: &#34;)) - 1  # We already change it to 0-2 format
+                if (i in [0,1,2]): # In case the user introduces a different integer
+                    valid_i = True
+                else:
+                    print(&#34;Please enter a valid row (1,2,3)&#34;)
+            except ValueError: # If we enter not integer to int it raises ValueError
+                print(&#34;Please enter a valid row (1,2,3)&#34;)  
+                
+        valid_j = False
+        while (not valid_j):
+            try:
+                j = int(input(&#34;Enter your column: &#34;)) - 1  # We already change it to 0-2 format
+                if (j in [0,1,2]):
+                    valid_j = True
+                else:
+                    print(&#34;Please enter a valid column (1,2,3)&#34;)
+            except ValueError:
+                print(&#34;Please enter a valid column (1,2,3)&#34;)
+
+        return i, j
+
+    def show_team_winner_end(winner):
+        &#34;&#34;&#34;Ends the game by showing which team won and the credits&#34;&#34;&#34;
+        
+        if (winner == 1): print(&#34;X wins -- TO DO Say who won&#34;)
+        elif (winner == 2): print(&#34;O wins -- TO DO Say who won&#34;)
+        elif (winner == 0): print(&#34;Tie!&#34;)
+        else:
+            raise Exception(&#34;Winner is undefined&#34;)
+        print(&#34;\nBy Pablo Gallego Adrián.&#34;)
+
+    def show_winner_end(winner, player_team, name):
+        &#34;&#34;&#34;Ends the game by showing who won and the credits&#34;&#34;&#34;
+        
+        if(winner == 0): print(&#34;It&#39;s a tie!&#34;)
+        elif (winner == player_team): print(&#34;Congratulations &#34;+name+&#34;, you won!&#34;)
+        else: print(&#34;I&#39;m sorry &#34;+name+ &#34;, but I won!&#34;)    
+
+        print(&#34;\nBy Pablo Gallego Adrián.&#34;)
+
+    def user_introduction():
+        &#34;&#34;&#34;Introduce the game for the user, asking name and team.&#34;&#34;&#34;
+
+        _t = 1 # Waiting time between sentences in s
+        print(&#34;\n\nWelcome to the TicTacToe AI test game.\n&#34;)
+        time.sleep(_t)
+
+        name = input(&#34;Introduce your name: &#34;)
+        print(&#34;Hi &#34; + name + &#34;, I&#39;m TicAI!&#34;)
+        time.sleep(_t)
+        print(&#34;To choose a square, write the number of the row and column (Ex: 1 3)\n&#34;)
+
+
+        # We choose if the player wants to play as X o O
+        xo = input(&#34;Do you want to play as X or O? (X always start): &#34;)
+
+        while (xo not in [&#34;X&#34;,&#34;O&#34;,&#34;x&#34;,&#34;o&#34;]):
+            xo = input(&#34;Sorry, I didn&#39;t understand. Please write X or O: &#34;)
+
+        if (xo in [&#34;X&#34;,&#34;x&#34;]): 
+            print(&#34;Great, then you will start.&#34;)
+            player_team = 1
+            player_turn = True
+        else: 
+            print(&#34;Great, then I will start.&#34;)
+            player_team = 2
+            player_turn = False
+        time.sleep(_t)
+
+        return name, player_team, player_turn
+
+    def auto_introduction():
+        &#34;&#34;&#34;Introduce the game without user. &#34;&#34;&#34;
+
+        print(&#34;Hello, this is an auto round of the game!\n&#34;)
+
+        name = &#34;me&#34;
+        player_team = 1
+        player_turn = True
+        return name, player_team, player_turn</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="classes.Board"><code class="flex name class">
+<span>class <span class="ident">Board</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>The Board class holds all the functionality of the game itself.
+It contains the necesary methods to create, show and transform the board.</p>
+<p>Generate empty board (3x3) full of 0s.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Board:
+
+    &#34;&#34;&#34;The Board class holds all the functionality of the game itself.
+    It contains the necesary methods to create, show and transform the board.&#34;&#34;&#34;
+
+    def __init__(self) -&gt; None:
+        &#34;&#34;&#34;Generate empty board (3x3) full of 0s.&#34;&#34;&#34;
+        self.board = np.zeros((3,3), np.int8)
+
+
+    def __repr__(self) -&gt; str:
+        &#34;&#34;&#34;Return string description.&#34;&#34;&#34;
+        return f&#34;{type(self).__name__}\n(board={self.board})&#34;
+
+    def set_board(self, new_board):
+        &#34;&#34;&#34;Set manually the values of all the board.
+        This function should be private and never used by the user.&#34;&#34;&#34;
+
+        # Check that it is an array
+        if (not isinstance(new_board, np.ndarray)):
+            raise WrongBoard(&#34;In set board - new board is not an array.&#34;)
+        # Check that it has the correct shape
+        elif (new_board.shape != (3,3)):
+            raise WrongBoard(&#34;In set board - wrong dimensions.&#34;)
+        # Check that it only contains valid values
+        elif (any(x not in [0,1,2] for x in np.nditer(new_board))):
+            raise WrongBoard(&#34;In set board - incorrect values in new board.&#34;)
+        # Assing the new board
+        else:
+            self.board = new_board
+
+
+    def show(self):
+        &#34;&#34;&#34;Print board (only for 3x3)&#34;&#34;&#34;
+
+        A = [[&#34;.&#34;,&#34;.&#34;,&#34;.&#34;],[&#34;.&#34;,&#34;.&#34;,&#34;.&#34;],[&#34;.&#34;,&#34;.&#34;,&#34;.&#34;]]
+
+        for i in range(3):
+            for j in range(3):
+                if (self.board[i,j] == 1): A[i][j] = &#34;X&#34;
+                elif (self.board[i,j] == 2): A[i][j] = &#34;O&#34;
+        
+        print(&#34;\n&#34;)
+        print(f&#34;    {A[0][0]} | {A[0][1]} | {A[0][2]}&#34;)
+        print(&#34;   ___________&#34;)
+        print(f&#34;    {A[1][0]} | {A[1][1]} | {A[1][2]}&#34;)
+        print(&#34;   ___________&#34;)
+        print(f&#34;    {A[2][0]} | {A[2][1]} | {A[2][2]}&#34;)
+        print(&#34;\n&#34;)
+
+    def move(self, i, j):
+        &#34;&#34;&#34;Takes one board and a square and executes the correspondand move&#34;&#34;&#34;
+
+        # First check that square is avaliable
+        if (self.board[i,j] != 0):
+            raise OccupiedSquare(&#34;Error in move: selected square is already filled.&#34;)
+
+        # Calculate whose turn is it
+        nX = sum(sum(self.board == 1))
+        nO = sum(sum(self.board == 2))
+
+        if ( (nX - nO) == 1 ): turn = 2 # Turn for Os
+        elif ( nX == nO ): turn = 1 # Turn for Xs
+        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+
+        # Fill square
+        self.board[i,j] = turn
+
+    def random_move(self):
+        &#34;&#34;&#34;Move in a random empty square of the board. 
+        Note: different that previous random_move function, because doesn&#39;t return coordinates, but it directly moves.&#34;&#34;&#34;
+
+        while(True):
+            # Generate random square
+            i = rand.randint(0,2)
+            j = rand.randint(0,2)
+
+            # If its empty we return it
+            if (self.board[i,j] == 0): 
+                self.move(i,j)
+                return
+
+    def get_winner(self):
+        &#34;&#34;&#34;Return the winner of the board 1 o 2 (X o O)&#34;&#34;&#34;
+        
+        # Also check that there are no 2 different winners
+        winner = []
+
+        # Columns and rows
+        for i in range(3):
+            
+            # Rows
+            if ((self.board[i,0] == self.board[i,1] == self.board[i,2]) &amp; (self.board[i,0] != 0)): 
+                winner.append(self.board[i,0])
+            # Columns
+            if((self.board[0,i] == self.board[1,i] == self.board[2,i]) &amp; (self.board[0,i] != 0)): 
+                winner.append(self.board[0,i])
+                
+        # Diagonals
+        if ((self.board[0,0] == self.board[1,1] == self.board[2,2]) &amp; (self.board[1,1] != 0)): 
+                winner.append(self.board[1,1])
+        if ((self.board[0,2] == self.board[1,1] == self.board[2,0]) &amp; (self.board[1,1] != 0)): 
+                winner.append(self.board[1,1])
+
+        _len = len(winner)
+
+        # Check only one winner
+        if _len == 0: # If no winner
+            return 0
+        elif (_len == 1): # If just one winner with 1 line
+            return winner[0]
+        elif ((_len == 2) &amp; (winner[0] == winner[1])): # The same winner with 2 lines
+            return winner[0] 
+        elif (_len == 2): # If two winner lines from different teams
+            raise WrongBoard(&#34;Error in board_winner - more than 1 winner.&#34;)
+        else: # 3 or more winner lines
+            raise WrongBoard(&#34;Error in board_winner - more than 2 winner lines.&#34;)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="classes.Board.get_winner"><code class="name flex">
+<span>def <span class="ident">get_winner</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return the winner of the board 1 o 2 (X o O)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_winner(self):
+    &#34;&#34;&#34;Return the winner of the board 1 o 2 (X o O)&#34;&#34;&#34;
+    
+    # Also check that there are no 2 different winners
+    winner = []
+
+    # Columns and rows
+    for i in range(3):
+        
+        # Rows
+        if ((self.board[i,0] == self.board[i,1] == self.board[i,2]) &amp; (self.board[i,0] != 0)): 
+            winner.append(self.board[i,0])
+        # Columns
+        if((self.board[0,i] == self.board[1,i] == self.board[2,i]) &amp; (self.board[0,i] != 0)): 
+            winner.append(self.board[0,i])
+            
+    # Diagonals
+    if ((self.board[0,0] == self.board[1,1] == self.board[2,2]) &amp; (self.board[1,1] != 0)): 
+            winner.append(self.board[1,1])
+    if ((self.board[0,2] == self.board[1,1] == self.board[2,0]) &amp; (self.board[1,1] != 0)): 
+            winner.append(self.board[1,1])
+
+    _len = len(winner)
+
+    # Check only one winner
+    if _len == 0: # If no winner
+        return 0
+    elif (_len == 1): # If just one winner with 1 line
+        return winner[0]
+    elif ((_len == 2) &amp; (winner[0] == winner[1])): # The same winner with 2 lines
+        return winner[0] 
+    elif (_len == 2): # If two winner lines from different teams
+        raise WrongBoard(&#34;Error in board_winner - more than 1 winner.&#34;)
+    else: # 3 or more winner lines
+        raise WrongBoard(&#34;Error in board_winner - more than 2 winner lines.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="classes.Board.move"><code class="name flex">
+<span>def <span class="ident">move</span></span>(<span>self, i, j)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Takes one board and a square and executes the correspondand move</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def move(self, i, j):
+    &#34;&#34;&#34;Takes one board and a square and executes the correspondand move&#34;&#34;&#34;
+
+    # First check that square is avaliable
+    if (self.board[i,j] != 0):
+        raise OccupiedSquare(&#34;Error in move: selected square is already filled.&#34;)
+
+    # Calculate whose turn is it
+    nX = sum(sum(self.board == 1))
+    nO = sum(sum(self.board == 2))
+
+    if ( (nX - nO) == 1 ): turn = 2 # Turn for Os
+    elif ( nX == nO ): turn = 1 # Turn for Xs
+    else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+
+    # Fill square
+    self.board[i,j] = turn</code></pre>
+</details>
+</dd>
+<dt id="classes.Board.random_move"><code class="name flex">
+<span>def <span class="ident">random_move</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Move in a random empty square of the board.
+Note: different that previous random_move function, because doesn't return coordinates, but it directly moves.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def random_move(self):
+    &#34;&#34;&#34;Move in a random empty square of the board. 
+    Note: different that previous random_move function, because doesn&#39;t return coordinates, but it directly moves.&#34;&#34;&#34;
+
+    while(True):
+        # Generate random square
+        i = rand.randint(0,2)
+        j = rand.randint(0,2)
+
+        # If its empty we return it
+        if (self.board[i,j] == 0): 
+            self.move(i,j)
+            return</code></pre>
+</details>
+</dd>
+<dt id="classes.Board.set_board"><code class="name flex">
+<span>def <span class="ident">set_board</span></span>(<span>self, new_board)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set manually the values of all the board.
+This function should be private and never used by the user.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_board(self, new_board):
+    &#34;&#34;&#34;Set manually the values of all the board.
+    This function should be private and never used by the user.&#34;&#34;&#34;
+
+    # Check that it is an array
+    if (not isinstance(new_board, np.ndarray)):
+        raise WrongBoard(&#34;In set board - new board is not an array.&#34;)
+    # Check that it has the correct shape
+    elif (new_board.shape != (3,3)):
+        raise WrongBoard(&#34;In set board - wrong dimensions.&#34;)
+    # Check that it only contains valid values
+    elif (any(x not in [0,1,2] for x in np.nditer(new_board))):
+        raise WrongBoard(&#34;In set board - incorrect values in new board.&#34;)
+    # Assing the new board
+    else:
+        self.board = new_board</code></pre>
+</details>
+</dd>
+<dt id="classes.Board.show"><code class="name flex">
+<span>def <span class="ident">show</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Print board (only for 3x3)</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show(self):
+    &#34;&#34;&#34;Print board (only for 3x3)&#34;&#34;&#34;
+
+    A = [[&#34;.&#34;,&#34;.&#34;,&#34;.&#34;],[&#34;.&#34;,&#34;.&#34;,&#34;.&#34;],[&#34;.&#34;,&#34;.&#34;,&#34;.&#34;]]
+
+    for i in range(3):
+        for j in range(3):
+            if (self.board[i,j] == 1): A[i][j] = &#34;X&#34;
+            elif (self.board[i,j] == 2): A[i][j] = &#34;O&#34;
+    
+    print(&#34;\n&#34;)
+    print(f&#34;    {A[0][0]} | {A[0][1]} | {A[0][2]}&#34;)
+    print(&#34;   ___________&#34;)
+    print(f&#34;    {A[1][0]} | {A[1][1]} | {A[1][2]}&#34;)
+    print(&#34;   ___________&#34;)
+    print(f&#34;    {A[2][0]} | {A[2][1]} | {A[2][2]}&#34;)
+    print(&#34;\n&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="classes.GameCommunication"><code class="flex name class">
+<span>class <span class="ident">GameCommunication</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>The GameCommunication class contains all the functions related with asking and showing information to the user during the game.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GameCommunication:
+    &#34;&#34;&#34;The GameCommunication class contains all the functions related with asking and showing information to the user during the game.&#34;&#34;&#34;
+
+    def input_coordinates():
+        &#34;&#34;&#34;Ask the user for a row and column to move&#34;&#34;&#34;
+
+        valid_i = False
+        while (not valid_i):
+            try: # In case the user doesn&#39;t introduce an integer
+                i = int(input(&#34;Enter your row: &#34;)) - 1  # We already change it to 0-2 format
+                if (i in [0,1,2]): # In case the user introduces a different integer
+                    valid_i = True
+                else:
+                    print(&#34;Please enter a valid row (1,2,3)&#34;)
+            except ValueError: # If we enter not integer to int it raises ValueError
+                print(&#34;Please enter a valid row (1,2,3)&#34;)  
+                
+        valid_j = False
+        while (not valid_j):
+            try:
+                j = int(input(&#34;Enter your column: &#34;)) - 1  # We already change it to 0-2 format
+                if (j in [0,1,2]):
+                    valid_j = True
+                else:
+                    print(&#34;Please enter a valid column (1,2,3)&#34;)
+            except ValueError:
+                print(&#34;Please enter a valid column (1,2,3)&#34;)
+
+        return i, j
+
+    def show_team_winner_end(winner):
+        &#34;&#34;&#34;Ends the game by showing which team won and the credits&#34;&#34;&#34;
+        
+        if (winner == 1): print(&#34;X wins -- TO DO Say who won&#34;)
+        elif (winner == 2): print(&#34;O wins -- TO DO Say who won&#34;)
+        elif (winner == 0): print(&#34;Tie!&#34;)
+        else:
+            raise Exception(&#34;Winner is undefined&#34;)
+        print(&#34;\nBy Pablo Gallego Adrián.&#34;)
+
+    def show_winner_end(winner, player_team, name):
+        &#34;&#34;&#34;Ends the game by showing who won and the credits&#34;&#34;&#34;
+        
+        if(winner == 0): print(&#34;It&#39;s a tie!&#34;)
+        elif (winner == player_team): print(&#34;Congratulations &#34;+name+&#34;, you won!&#34;)
+        else: print(&#34;I&#39;m sorry &#34;+name+ &#34;, but I won!&#34;)    
+
+        print(&#34;\nBy Pablo Gallego Adrián.&#34;)
+
+    def user_introduction():
+        &#34;&#34;&#34;Introduce the game for the user, asking name and team.&#34;&#34;&#34;
+
+        _t = 1 # Waiting time between sentences in s
+        print(&#34;\n\nWelcome to the TicTacToe AI test game.\n&#34;)
+        time.sleep(_t)
+
+        name = input(&#34;Introduce your name: &#34;)
+        print(&#34;Hi &#34; + name + &#34;, I&#39;m TicAI!&#34;)
+        time.sleep(_t)
+        print(&#34;To choose a square, write the number of the row and column (Ex: 1 3)\n&#34;)
+
+
+        # We choose if the player wants to play as X o O
+        xo = input(&#34;Do you want to play as X or O? (X always start): &#34;)
+
+        while (xo not in [&#34;X&#34;,&#34;O&#34;,&#34;x&#34;,&#34;o&#34;]):
+            xo = input(&#34;Sorry, I didn&#39;t understand. Please write X or O: &#34;)
+
+        if (xo in [&#34;X&#34;,&#34;x&#34;]): 
+            print(&#34;Great, then you will start.&#34;)
+            player_team = 1
+            player_turn = True
+        else: 
+            print(&#34;Great, then I will start.&#34;)
+            player_team = 2
+            player_turn = False
+        time.sleep(_t)
+
+        return name, player_team, player_turn
+
+    def auto_introduction():
+        &#34;&#34;&#34;Introduce the game without user. &#34;&#34;&#34;
+
+        print(&#34;Hello, this is an auto round of the game!\n&#34;)
+
+        name = &#34;me&#34;
+        player_team = 1
+        player_turn = True
+        return name, player_team, player_turn</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="classes.GameCommunication.auto_introduction"><code class="name flex">
+<span>def <span class="ident">auto_introduction</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Introduce the game without user.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def auto_introduction():
+    &#34;&#34;&#34;Introduce the game without user. &#34;&#34;&#34;
+
+    print(&#34;Hello, this is an auto round of the game!\n&#34;)
+
+    name = &#34;me&#34;
+    player_team = 1
+    player_turn = True
+    return name, player_team, player_turn</code></pre>
+</details>
+</dd>
+<dt id="classes.GameCommunication.input_coordinates"><code class="name flex">
+<span>def <span class="ident">input_coordinates</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Ask the user for a row and column to move</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def input_coordinates():
+    &#34;&#34;&#34;Ask the user for a row and column to move&#34;&#34;&#34;
+
+    valid_i = False
+    while (not valid_i):
+        try: # In case the user doesn&#39;t introduce an integer
+            i = int(input(&#34;Enter your row: &#34;)) - 1  # We already change it to 0-2 format
+            if (i in [0,1,2]): # In case the user introduces a different integer
+                valid_i = True
+            else:
+                print(&#34;Please enter a valid row (1,2,3)&#34;)
+        except ValueError: # If we enter not integer to int it raises ValueError
+            print(&#34;Please enter a valid row (1,2,3)&#34;)  
+            
+    valid_j = False
+    while (not valid_j):
+        try:
+            j = int(input(&#34;Enter your column: &#34;)) - 1  # We already change it to 0-2 format
+            if (j in [0,1,2]):
+                valid_j = True
+            else:
+                print(&#34;Please enter a valid column (1,2,3)&#34;)
+        except ValueError:
+            print(&#34;Please enter a valid column (1,2,3)&#34;)
+
+    return i, j</code></pre>
+</details>
+</dd>
+<dt id="classes.GameCommunication.show_team_winner_end"><code class="name flex">
+<span>def <span class="ident">show_team_winner_end</span></span>(<span>winner)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Ends the game by showing which team won and the credits</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_team_winner_end(winner):
+    &#34;&#34;&#34;Ends the game by showing which team won and the credits&#34;&#34;&#34;
+    
+    if (winner == 1): print(&#34;X wins -- TO DO Say who won&#34;)
+    elif (winner == 2): print(&#34;O wins -- TO DO Say who won&#34;)
+    elif (winner == 0): print(&#34;Tie!&#34;)
+    else:
+        raise Exception(&#34;Winner is undefined&#34;)
+    print(&#34;\nBy Pablo Gallego Adrián.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="classes.GameCommunication.show_winner_end"><code class="name flex">
+<span>def <span class="ident">show_winner_end</span></span>(<span>winner, player_team, name)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Ends the game by showing who won and the credits</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_winner_end(winner, player_team, name):
+    &#34;&#34;&#34;Ends the game by showing who won and the credits&#34;&#34;&#34;
+    
+    if(winner == 0): print(&#34;It&#39;s a tie!&#34;)
+    elif (winner == player_team): print(&#34;Congratulations &#34;+name+&#34;, you won!&#34;)
+    else: print(&#34;I&#39;m sorry &#34;+name+ &#34;, but I won!&#34;)    
+
+    print(&#34;\nBy Pablo Gallego Adrián.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="classes.GameCommunication.user_introduction"><code class="name flex">
+<span>def <span class="ident">user_introduction</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Introduce the game for the user, asking name and team.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def user_introduction():
+    &#34;&#34;&#34;Introduce the game for the user, asking name and team.&#34;&#34;&#34;
+
+    _t = 1 # Waiting time between sentences in s
+    print(&#34;\n\nWelcome to the TicTacToe AI test game.\n&#34;)
+    time.sleep(_t)
+
+    name = input(&#34;Introduce your name: &#34;)
+    print(&#34;Hi &#34; + name + &#34;, I&#39;m TicAI!&#34;)
+    time.sleep(_t)
+    print(&#34;To choose a square, write the number of the row and column (Ex: 1 3)\n&#34;)
+
+
+    # We choose if the player wants to play as X o O
+    xo = input(&#34;Do you want to play as X or O? (X always start): &#34;)
+
+    while (xo not in [&#34;X&#34;,&#34;O&#34;,&#34;x&#34;,&#34;o&#34;]):
+        xo = input(&#34;Sorry, I didn&#39;t understand. Please write X or O: &#34;)
+
+    if (xo in [&#34;X&#34;,&#34;x&#34;]): 
+        print(&#34;Great, then you will start.&#34;)
+        player_team = 1
+        player_turn = True
+    else: 
+        print(&#34;Great, then I will start.&#34;)
+        player_team = 2
+        player_turn = False
+    time.sleep(_t)
+
+    return name, player_team, player_turn</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="classes.OccupiedSquare"><code class="flex name class">
+<span>class <span class="ident">OccupiedSquare</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>The selected squared has been already filled</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class OccupiedSquare(Exception):
+    &#34;&#34;&#34;The selected squared has been already filled&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="classes.WrongBoard"><code class="flex name class">
+<span>class <span class="ident">WrongBoard</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A board that is impossible was reached.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class WrongBoard(Exception):
+    &#34;&#34;&#34;A board that is impossible was reached.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="classes.Board" href="#classes.Board">Board</a></code></h4>
+<ul class="">
+<li><code><a title="classes.Board.get_winner" href="#classes.Board.get_winner">get_winner</a></code></li>
+<li><code><a title="classes.Board.move" href="#classes.Board.move">move</a></code></li>
+<li><code><a title="classes.Board.random_move" href="#classes.Board.random_move">random_move</a></code></li>
+<li><code><a title="classes.Board.set_board" href="#classes.Board.set_board">set_board</a></code></li>
+<li><code><a title="classes.Board.show" href="#classes.Board.show">show</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="classes.GameCommunication" href="#classes.GameCommunication">GameCommunication</a></code></h4>
+<ul class="">
+<li><code><a title="classes.GameCommunication.auto_introduction" href="#classes.GameCommunication.auto_introduction">auto_introduction</a></code></li>
+<li><code><a title="classes.GameCommunication.input_coordinates" href="#classes.GameCommunication.input_coordinates">input_coordinates</a></code></li>
+<li><code><a title="classes.GameCommunication.show_team_winner_end" href="#classes.GameCommunication.show_team_winner_end">show_team_winner_end</a></code></li>
+<li><code><a title="classes.GameCommunication.show_winner_end" href="#classes.GameCommunication.show_winner_end">show_winner_end</a></code></li>
+<li><code><a title="classes.GameCommunication.user_introduction" href="#classes.GameCommunication.user_introduction">user_introduction</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="classes.OccupiedSquare" href="#classes.OccupiedSquare">OccupiedSquare</a></code></h4>
+</li>
+<li>
+<h4><code><a title="classes.WrongBoard" href="#classes.WrongBoard">WrongBoard</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
