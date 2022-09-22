@@ -96,35 +96,38 @@ class Board:
     def get_winner(self):
         """Return the winner of the board 1 o 2 (X o O)"""
         
-        # Also check that there is no 2 or more lines
-        count = 0
-        winner = 0
+        # Also check that there are no 2 different winners
+        winner = []
 
         # Columns and rows
         for i in range(3):
             
             # Rows
             if ((self.board[i,0] == self.board[i,1] == self.board[i,2]) & (self.board[i,0] != 0)): 
-                count += 1
-                winner = self.board[i,0]
+                winner.append(self.board[i,0])
             # Columns
             if((self.board[0,i] == self.board[1,i] == self.board[2,i]) & (self.board[0,i] != 0)): 
-                count += 1
-                winner = self.board[0,i]
+                winner.append(self.board[0,i])
                 
         # Diagonals
         if ((self.board[0,0] == self.board[1,1] == self.board[2,2]) & (self.board[1,1] != 0)): 
-                count += 1
-                winner = self.board[1,1]
+                winner.append(self.board[1,1])
         if ((self.board[0,2] == self.board[1,1] == self.board[2,0]) & (self.board[1,1] != 0)): 
-                count += 1
-                winner = self.board[1,1]
+                winner.append(self.board[1,1])
 
-        # Check only one line
-        if count > 1: 
-            raise WrongBoard("Error in board_winner - more than one winner line.")
-        else:
-            return winner
+        _len = len(winner)
+
+        # Check only one winner
+        if _len == 0: # If no winner
+            return 0
+        elif (_len == 1): # If just one winner with 1 line
+            return winner[0]
+        elif ((_len == 2) & (winner[0] == winner[1])): # The same winner with 2 lines
+            return winner[0] 
+        elif (_len == 2): # If two winner lines from different teams
+            raise WrongBoard("Error in board_winner - more than 1 winner.")
+        else: # 3 or more winner lines
+            raise WrongBoard("Error in board_winner - more than 2 winner lines.")
 
 
 class GameCommunication:
@@ -175,3 +178,40 @@ class GameCommunication:
         else: print("I'm sorry "+name+ ", but I won!")    
 
         print("\nBy Pablo Gallego Adrián.")
+
+    def user_introduction():
+        """Introduce the game for the user, asking name and team."""
+
+        print("\n\nWelcome to the TicTacToe AI test game.\n")
+
+        name = input("Introduce your name: ")
+        print("Hi " + name + ", I'm TicAI!")
+        print("To choose a square, write the number of the row and column (Ex: 1 3)\n")
+
+
+        # We choose if the player wants to play as X o O
+        xo = input("Do you want to play as X or O? (X always start): ")
+
+        while (xo not in ["X","O","x","o"]):
+            xo = input("Sorry, I didn't understand. Please write X or O: ")
+
+        if (xo in ["X","x"]): 
+            print("Great, then you will start.")
+            player_team = 1
+            player_turn = True
+        else: 
+            print("Great, then I will start.")
+            player_team = 2
+            player_turn = False
+
+        return name, player_team, player_turn
+
+    def auto_introduction():
+        """Introduce the game without user. """
+
+        print("Hello, this is an auto round of the game!\n")
+
+        name = "me"
+        player_team = 1
+        player_turn = True
+        return name, player_team, player_turn

@@ -1,6 +1,7 @@
 # Classes tests
 from classes import *
 import sys
+import game
 
 def test_board_creation():
     """Check the that the instatiation of a board,
@@ -94,6 +95,7 @@ def test_winner():
     board.set_board(np.array([[0,1,1],[0,2,0],[1,0,2]]))
     assert board.get_winner() == 0
 
+    # 2 lines different winner
     try:
         board.set_board(np.array([[1,1,1],[0,2,0],[2,2,2]]))
         w = board.get_winner()
@@ -101,5 +103,13 @@ def test_winner():
     except WrongBoard:
         pass
 
+    # 2 lines of the same winner
+    board.set_board(np.array([[1,1,1],[0,2,1],[1,0,1]]))
+    assert board.get_winner() == 1
+
     return
 
+
+def test_full_auto_game():
+    game.main(["game.py","auto"], 2)
+    return
