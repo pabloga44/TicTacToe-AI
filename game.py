@@ -14,6 +14,9 @@ def main(argv, arc):
     # Set IA machine
     if (arc > 2):
         if(argv[2] == "dummy"): AI = False
+        elif(argv[2] == "AI"): 
+            AI = True
+            IA = TicTacTocIA()
         else: raise Exception("Invalid argument no 3.")
     else: 
         AI = True
