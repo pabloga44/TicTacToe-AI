@@ -253,7 +253,7 @@ class TicTacTocIA():
         else:
             raise Exception("Incorrect team.")
 
-    def valuate_board(self, A: Board, team: int, depth: int) -> int:
+    def valuate_board(self, A: Board, team: int, depth: int, max_depth: int) -> tuple[tuple[int,int], list, int] :
         # Iterate over empty squares
         I, J = np.where(A.board == 0)
 
@@ -261,8 +261,8 @@ class TicTacTocIA():
 
         # Check the game didn't finish
         winner_team = A.get_winner()
-
-        if ((len(I) == 0) | (winner_team != 0)): # Leaf node
+        vals = np.array([])
+        if ((len(I) == 0) | (winner_team != 0) | (depth >= max_depth)): # Leaf node
 
             
             if (team == winner_team): value = 5
@@ -271,21 +271,21 @@ class TicTacTocIA():
             
         else:
             # If depth par: return max, if depth impar: return min
-            val = []
-            for i, j in zip(I, J):
-                val.append( self.valuate_board(self.move_new(A, i, j), team, depth + 1) )
             
-            if (depth % 2 == 0): value = max(val)
-            else: value =  min(val)
+            for i, j in zip(I, J):
+                vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+            
+            if (depth % 2 == 0): value = max(vals)
+            else: value =  min(vals)
         
         # Print process
-        A.show()
-        print("  "*depth +  "Team: "+ str(team)+ ", Depth: " + str(depth) + ", Value: "+ str(value))
+        #A.show()
+        #print("  "*depth +  "Team: "+ str(team)+ ", Depth: " + str(depth) + ", Value: "+ str(value))
         
 
-        return value
+        return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
 
-    def best_move(self, board: Board) -> tuple[int, int]:
+    def best_move(self, board: Board, max_depth = 9) -> tuple[int, int]:
         """Takes one Board object and calculates the next best move for whoever is the next player to move.
         Returns the coordinates of the move."""
 
@@ -300,6 +300,11 @@ class TicTacTocIA():
         elif ( nX == nO ): team = 1 # Turn for Xs
         else: raise WrongBoard("Error in move: incorrect board.")
 
-        val = self.valuate_board(A, team, 0)
-
-        return val
+        coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
+        I, J = list(zip(*coordinates))
+        
+        # Choose one move among all the bests
+        #print(np.where(vals == value))
+        #print(vals)
+        index = np.random.choice(np.where(vals == value)[0])
+        return I[index], J[index]
