@@ -46,7 +46,7 @@ class Board:
             raise WrongBoard("In set board - incorrect values in new board.")
         # Assing the new board
         else:
-            self.board = new_board
+            self.board = new_board.copy()
 
 
     def show(self):
@@ -135,6 +135,10 @@ class Board:
         else: # 3 or more winner lines
             raise WrongBoard("Error in board_winner - more than 2 winner lines.")
 
+    def copy(self): # -> Board (Its not trivial to write)
+        new = Board()
+        new.set_board(self.board)
+        return new
 
 class GameCommunication:
     """The GameCommunication class contains all the functions related with asking and showing information to the user during the game."""
@@ -230,7 +234,72 @@ class GameCommunication:
 class TicTacTocIA():
     """The TicTacTocIA class contains the Artificial Inteligece engine build to play (and win) the game."""
 
-    def best_move(board: Board):
+    def move_new(self, board: Board, i: int, j: int) -> Board:
+        """Takes a board and returns a different board with the next movement.
+        Different from Board.move() that modifies the object itself."""
+        
+        # Make the new board as a copy of the old one
+        new = Board()
+        new.set_board(board.board)
+        new.move(i,j)
+
+        return new
+    
+    def _swap_team(self, team: int) -> int:
+        """Internal function that changes the team each depth level"""
+
+        if team == 1: return 2
+        elif team == 2: return 1
+        else:
+            raise Exception("Incorrect team.")
+
+    def valuate_board(self, A: Board, team: int, depth: int) -> int:
+        # Iterate over empty squares
+        I, J = np.where(A.board == 0)
+
+        
+
+        # Check the game didn't finish
+        winner_team = A.get_winner()
+
+        if ((len(I) == 0) | (winner_team != 0)): # Leaf node
+
+            
+            if (team == winner_team): value = 5
+            elif (winner_team == 0): value = 0
+            else: value = -5
+            
+        else:
+            # If depth par: return max, if depth impar: return min
+            val = []
+            for i, j in zip(I, J):
+                val.append( self.valuate_board(self.move_new(A, i, j), team, depth + 1) )
+            
+            if (depth % 2 == 0): value = max(val)
+            else: value =  min(val)
+        
+        # Print process
+        A.show()
+        print("  "*depth +  "Team: "+ str(team)+ ", Depth: " + str(depth) + ", Value: "+ str(value))
+        
+
+        return value
+
+    def best_move(self, board: Board) -> tuple[int, int]:
         """Takes one Board object and calculates the next best move for whoever is the next player to move.
         Returns the coordinates of the move."""
-        pass
+
+        A = board.copy()
+
+        # Get team
+        
+        nX = sum(sum(A.board == 1))
+        nO = sum(sum(A.board == 2))
+
+        if ( (nX - nO) == 1 ): team = 2 # Turn for Os
+        elif ( nX == nO ): team = 1 # Turn for Xs
+        else: raise WrongBoard("Error in move: incorrect board.")
+
+        val = self.valuate_board(A, team, 0)
+
+        return val
