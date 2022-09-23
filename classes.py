@@ -2,6 +2,11 @@ import numpy as np
 import random as rand
 import time
 
+"""
+This module contains all the tools for creating a TicTacToe Game for a player vs machine or machine vs itself.
+Also, the machine can perform at different levels: random or IA player.
+"""
+
 class WrongBoard(Exception):
     """A board that is impossible was reached."""
     pass
