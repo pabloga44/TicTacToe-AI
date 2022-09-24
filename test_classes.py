@@ -113,5 +113,6 @@ def test_winner():
 def test_full_auto_game():
     """Run a full game of the machine against itself, just to check that nothing crashes."""
     
-    game.main(["game.py","auto"], 2)
+    sys.stdin = open("test_inputs/args.txt")
+    game.main()
     return

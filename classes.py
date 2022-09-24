@@ -189,11 +189,14 @@ class GameCommunication:
 
         print("\nBy Pablo Gallego Adrián.")
 
-    def user_introduction():
+    def user_introduction(AI):
         """Introduce the game for the user, asking name and team."""
 
         _t = 1 # Waiting time between sentences in s
         print("\n\nWelcome to the TicTacToe AI test game.\n")
+        if AI: print("You are playing against the trained AI.\n")
+        else: print("You are playing against the dummy machine.\n")
+
         time.sleep(_t)
 
         name = input("Introduce your name: ")
@@ -220,10 +223,12 @@ class GameCommunication:
 
         return name, player_team, player_turn
 
-    def auto_introduction():
+    def auto_introduction(AI):
         """Introduce the game without user. """
 
         print("Hello, this is an auto round of the game!\n")
+        if AI: print("Mode: trained AI.\n")
+        else: print("Mode: dummy machine.\n")
 
         name = "me"
         player_team = 1

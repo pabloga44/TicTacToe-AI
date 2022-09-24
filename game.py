@@ -1,33 +1,17 @@
 # Game script
 from classes import *
 import sys
+import argparse
 
-def main(argv, arc):
+def main(user, AI):
 
-    # Set game mode
-    if (arc > 1):
-        if(argv[1] == "auto"): user = False
-        elif(argv[1] == "user"): user = True
-        else: raise Exception("Invalid argument no 2.")
-    else: user = True
-
-    # Set IA machine
-    if (arc > 2):
-        if(argv[2] == "dummy"): AI = False
-        elif(argv[2] == "AI"): 
-            AI = True
-            IA = TicTacTocIA()
-        else: raise Exception("Invalid argument no 3.")
-    else: 
-        AI = True
-        IA = TicTacTocIA()
-
+    if AI: IA = TicTacTocIA()
 
     # Introduction to the game
     if user:
-        name, player_team, player_turn = GameCommunication.user_introduction()
+        name, player_team, player_turn = GameCommunication.user_introduction(AI)
     else:
-        name, player_team, player_turn = GameCommunication.auto_introduction()
+        name, player_team, player_turn = GameCommunication.auto_introduction(AI)
 
     # Start the game
     board = Board()
@@ -78,4 +62,20 @@ def main(argv, arc):
 
 
 if __name__ == "__main__":
-    main(sys.argv, len(sys.argv))
+
+    # Argument parser
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-mode", type=str, default="user", help="Player mode: user (play against the machine), auto (machine against itself)")
+    parser.add_argument("-level", type=str, default="IA", help="Machine level of dificulty: dummy (random moves), IA (perfect machine)")
+    args = parser.parse_args()
+
+    # Using the arguments
+    if(args.mode == "auto"): user = False
+    elif(args.mode == "user"): user = True
+    else: raise Exception("Invalid argument mode.")
+
+    if(args.level == "dummy"): AI = False
+    elif(args.level == "IA"):  AI = True
+    else: raise Exception("Invalid argument level.")
+
+    main(user, AI)
