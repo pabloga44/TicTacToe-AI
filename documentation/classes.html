@@ -74,7 +74,7 @@ class Board:
             raise WrongBoard(&#34;In set board - incorrect values in new board.&#34;)
         # Assing the new board
         else:
-            self.board = new_board
+            self.board = new_board.copy()
 
 
     def show(self):
@@ -163,6 +163,10 @@ class Board:
         else: # 3 or more winner lines
             raise WrongBoard(&#34;Error in board_winner - more than 2 winner lines.&#34;)
 
+    def copy(self): # -&gt; Board (Its not trivial to write)
+        new = Board()
+        new.set_board(self.board)
+        return new
 
 class GameCommunication:
     &#34;&#34;&#34;The GameCommunication class contains all the functions related with asking and showing information to the user during the game.&#34;&#34;&#34;
@@ -258,10 +262,81 @@ class GameCommunication:
 class TicTacTocIA():
     &#34;&#34;&#34;The TicTacTocIA class contains the Artificial Inteligece engine build to play (and win) the game.&#34;&#34;&#34;
 
-    def best_move(board: Board):
+    def move_new(self, board: Board, i: int, j: int) -&gt; Board:
+        &#34;&#34;&#34;Takes a board and returns a different board with the next movement.
+        Different from Board.move() that modifies the object itself.&#34;&#34;&#34;
+        
+        # Make the new board as a copy of the old one
+        new = Board()
+        new.set_board(board.board)
+        new.move(i,j)
+
+        return new
+    
+
+    def valuate_board(self, A: Board, team: int, depth: int, max_depth: int) -&gt; tuple[tuple[int,int], list, int] :
+        &#34;&#34;&#34;Recursive function that evaluates each board according to one team.
+        Arguments:
+            - A: board to evaluate. Changes each time.
+            - Team: team to make the first move, evaluate according to it. Constant.
+            - Depth: level of recursion of each iteration. Changes each time.
+            - Max depth: maximum level of reach. Constant.
+
+        Returns:
+            - I and J (zipped): lists of possible next moves coordinates.
+            - Vals: evaluation of each next board, in the same order as I and J.
+            - Value: final evaluation of A. 
+            &#34;&#34;&#34;
+        
+        # Iterate over empty squares
+        I, J = np.where(A.board == 0)
+
+        # Check the game didn&#39;t finish
+        winner_team = A.get_winner()
+        vals = np.array([])
+        if ((len(I) == 0) | (winner_team != 0) | (depth &gt;= max_depth)): # Leaf node
+
+            
+            if (team == winner_team): value = 5
+            elif (winner_team == 0): value = 0
+            else: value = -5
+            
+        else:
+            # If depth par: return max, if depth impar: return min
+            
+            for i, j in zip(I, J):
+                vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+            
+            if (depth % 2 == 0): value = max(vals)
+            else: value =  min(vals)
+        
+        # Print process
+        #A.show()
+        #print(&#34;  &#34;*depth +  &#34;Team: &#34;+ str(team)+ &#34;, Depth: &#34; + str(depth) + &#34;, Value: &#34;+ str(value))
+        
+        return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
+
+    def best_move(self, board: Board, max_depth = 9) -&gt; tuple[int, int]:
         &#34;&#34;&#34;Takes one Board object and calculates the next best move for whoever is the next player to move.
         Returns the coordinates of the move.&#34;&#34;&#34;
-        pass</code></pre>
+
+        A = board.copy()
+
+        # Get team
+        
+        nX = sum(sum(A.board == 1))
+        nO = sum(sum(A.board == 2))
+
+        if ( (nX - nO) == 1 ): team = 2 # Turn for Os
+        elif ( nX == nO ): team = 1 # Turn for Xs
+        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+
+        coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
+        I, J = list(zip(*coordinates))
+        
+        # Choose one move among all the bests
+        index = np.random.choice(np.where(vals == value)[0])
+        return I[index], J[index]</code></pre>
 </details>
 </section>
 <section>
@@ -313,7 +388,7 @@ It contains the necesary methods to create, show and transform the board.</p>
             raise WrongBoard(&#34;In set board - incorrect values in new board.&#34;)
         # Assing the new board
         else:
-            self.board = new_board
+            self.board = new_board.copy()
 
 
     def show(self):
@@ -400,10 +475,30 @@ It contains the necesary methods to create, show and transform the board.</p>
         elif (_len == 2): # If two winner lines from different teams
             raise WrongBoard(&#34;Error in board_winner - more than 1 winner.&#34;)
         else: # 3 or more winner lines
-            raise WrongBoard(&#34;Error in board_winner - more than 2 winner lines.&#34;)</code></pre>
+            raise WrongBoard(&#34;Error in board_winner - more than 2 winner lines.&#34;)
+
+    def copy(self): # -&gt; Board (Its not trivial to write)
+        new = Board()
+        new.set_board(self.board)
+        return new</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
+<dt id="classes.Board.copy"><code class="name flex">
+<span>def <span class="ident">copy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def copy(self): # -&gt; Board (Its not trivial to write)
+    new = Board()
+    new.set_board(self.board)
+    return new</code></pre>
+</details>
+</dd>
 <dt id="classes.Board.get_winner"><code class="name flex">
 <span>def <span class="ident">get_winner</span></span>(<span>self)</span>
 </code></dt>
@@ -528,7 +623,7 @@ This function should be private and never used by the user.</p></div>
         raise WrongBoard(&#34;In set board - incorrect values in new board.&#34;)
     # Assing the new board
     else:
-        self.board = new_board</code></pre>
+        self.board = new_board.copy()</code></pre>
 </details>
 </dd>
 <dt id="classes.Board.show"><code class="name flex">
@@ -833,15 +928,86 @@ This function should be private and never used by the user.</p></div>
 <pre><code class="python">class TicTacTocIA():
     &#34;&#34;&#34;The TicTacTocIA class contains the Artificial Inteligece engine build to play (and win) the game.&#34;&#34;&#34;
 
-    def best_move(board: Board):
+    def move_new(self, board: Board, i: int, j: int) -&gt; Board:
+        &#34;&#34;&#34;Takes a board and returns a different board with the next movement.
+        Different from Board.move() that modifies the object itself.&#34;&#34;&#34;
+        
+        # Make the new board as a copy of the old one
+        new = Board()
+        new.set_board(board.board)
+        new.move(i,j)
+
+        return new
+    
+
+    def valuate_board(self, A: Board, team: int, depth: int, max_depth: int) -&gt; tuple[tuple[int,int], list, int] :
+        &#34;&#34;&#34;Recursive function that evaluates each board according to one team.
+        Arguments:
+            - A: board to evaluate. Changes each time.
+            - Team: team to make the first move, evaluate according to it. Constant.
+            - Depth: level of recursion of each iteration. Changes each time.
+            - Max depth: maximum level of reach. Constant.
+
+        Returns:
+            - I and J (zipped): lists of possible next moves coordinates.
+            - Vals: evaluation of each next board, in the same order as I and J.
+            - Value: final evaluation of A. 
+            &#34;&#34;&#34;
+        
+        # Iterate over empty squares
+        I, J = np.where(A.board == 0)
+
+        # Check the game didn&#39;t finish
+        winner_team = A.get_winner()
+        vals = np.array([])
+        if ((len(I) == 0) | (winner_team != 0) | (depth &gt;= max_depth)): # Leaf node
+
+            
+            if (team == winner_team): value = 5
+            elif (winner_team == 0): value = 0
+            else: value = -5
+            
+        else:
+            # If depth par: return max, if depth impar: return min
+            
+            for i, j in zip(I, J):
+                vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+            
+            if (depth % 2 == 0): value = max(vals)
+            else: value =  min(vals)
+        
+        # Print process
+        #A.show()
+        #print(&#34;  &#34;*depth +  &#34;Team: &#34;+ str(team)+ &#34;, Depth: &#34; + str(depth) + &#34;, Value: &#34;+ str(value))
+        
+        return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
+
+    def best_move(self, board: Board, max_depth = 9) -&gt; tuple[int, int]:
         &#34;&#34;&#34;Takes one Board object and calculates the next best move for whoever is the next player to move.
         Returns the coordinates of the move.&#34;&#34;&#34;
-        pass</code></pre>
+
+        A = board.copy()
+
+        # Get team
+        
+        nX = sum(sum(A.board == 1))
+        nO = sum(sum(A.board == 2))
+
+        if ( (nX - nO) == 1 ): team = 2 # Turn for Os
+        elif ( nX == nO ): team = 1 # Turn for Xs
+        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+
+        coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
+        I, J = list(zip(*coordinates))
+        
+        # Choose one move among all the bests
+        index = np.random.choice(np.where(vals == value)[0])
+        return I[index], J[index]</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
 <dt id="classes.TicTacTocIA.best_move"><code class="name flex">
-<span>def <span class="ident">best_move</span></span>(<span>board: <a title="classes.Board" href="#classes.Board">Board</a>)</span>
+<span>def <span class="ident">best_move</span></span>(<span>self, board: <a title="classes.Board" href="#classes.Board">Board</a>, max_depth=9) ‑> tuple[int, int]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Takes one Board object and calculates the next best move for whoever is the next player to move.
@@ -850,10 +1016,114 @@ Returns the coordinates of the move.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def best_move(board: Board):
+<pre><code class="python">def best_move(self, board: Board, max_depth = 9) -&gt; tuple[int, int]:
     &#34;&#34;&#34;Takes one Board object and calculates the next best move for whoever is the next player to move.
     Returns the coordinates of the move.&#34;&#34;&#34;
-    pass</code></pre>
+
+    A = board.copy()
+
+    # Get team
+    
+    nX = sum(sum(A.board == 1))
+    nO = sum(sum(A.board == 2))
+
+    if ( (nX - nO) == 1 ): team = 2 # Turn for Os
+    elif ( nX == nO ): team = 1 # Turn for Xs
+    else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+
+    coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
+    I, J = list(zip(*coordinates))
+    
+    # Choose one move among all the bests
+    index = np.random.choice(np.where(vals == value)[0])
+    return I[index], J[index]</code></pre>
+</details>
+</dd>
+<dt id="classes.TicTacTocIA.move_new"><code class="name flex">
+<span>def <span class="ident">move_new</span></span>(<span>self, board: <a title="classes.Board" href="#classes.Board">Board</a>, i: int, j: int) ‑> <a title="classes.Board" href="#classes.Board">Board</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Takes a board and returns a different board with the next movement.
+Different from Board.move() that modifies the object itself.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def move_new(self, board: Board, i: int, j: int) -&gt; Board:
+    &#34;&#34;&#34;Takes a board and returns a different board with the next movement.
+    Different from Board.move() that modifies the object itself.&#34;&#34;&#34;
+    
+    # Make the new board as a copy of the old one
+    new = Board()
+    new.set_board(board.board)
+    new.move(i,j)
+
+    return new</code></pre>
+</details>
+</dd>
+<dt id="classes.TicTacTocIA.valuate_board"><code class="name flex">
+<span>def <span class="ident">valuate_board</span></span>(<span>self, A: <a title="classes.Board" href="#classes.Board">Board</a>, team: int, depth: int, max_depth: int) ‑> tuple[tuple[int, int], list, int]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Recursive function that evaluates each board according to one team.</p>
+<h2 id="arguments">Arguments</h2>
+<ul>
+<li>A: board to evaluate. Changes each time.</li>
+<li>Team: team to make the first move, evaluate according to it. Constant.</li>
+<li>Depth: level of recursion of each iteration. Changes each time.</li>
+<li>Max depth: maximum level of reach. Constant.</li>
+</ul>
+<h2 id="returns">Returns</h2>
+<ul>
+<li>I and J (zipped): lists of possible next moves coordinates.</li>
+<li>Vals: evaluation of each next board, in the same order as I and J.</li>
+<li>Value: final evaluation of A.</li>
+</ul></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def valuate_board(self, A: Board, team: int, depth: int, max_depth: int) -&gt; tuple[tuple[int,int], list, int] :
+    &#34;&#34;&#34;Recursive function that evaluates each board according to one team.
+    Arguments:
+        - A: board to evaluate. Changes each time.
+        - Team: team to make the first move, evaluate according to it. Constant.
+        - Depth: level of recursion of each iteration. Changes each time.
+        - Max depth: maximum level of reach. Constant.
+
+    Returns:
+        - I and J (zipped): lists of possible next moves coordinates.
+        - Vals: evaluation of each next board, in the same order as I and J.
+        - Value: final evaluation of A. 
+        &#34;&#34;&#34;
+    
+    # Iterate over empty squares
+    I, J = np.where(A.board == 0)
+
+    # Check the game didn&#39;t finish
+    winner_team = A.get_winner()
+    vals = np.array([])
+    if ((len(I) == 0) | (winner_team != 0) | (depth &gt;= max_depth)): # Leaf node
+
+        
+        if (team == winner_team): value = 5
+        elif (winner_team == 0): value = 0
+        else: value = -5
+        
+    else:
+        # If depth par: return max, if depth impar: return min
+        
+        for i, j in zip(I, J):
+            vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+        
+        if (depth % 2 == 0): value = max(vals)
+        else: value =  min(vals)
+    
+    # Print process
+    #A.show()
+    #print(&#34;  &#34;*depth +  &#34;Team: &#34;+ str(team)+ &#34;, Depth: &#34; + str(depth) + &#34;, Value: &#34;+ str(value))
+    
+    return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level</code></pre>
 </details>
 </dd>
 </dl>
@@ -891,7 +1161,8 @@ Returns the coordinates of the move.</p></div>
 <ul>
 <li>
 <h4><code><a title="classes.Board" href="#classes.Board">Board</a></code></h4>
-<ul class="">
+<ul class="two-column">
+<li><code><a title="classes.Board.copy" href="#classes.Board.copy">copy</a></code></li>
 <li><code><a title="classes.Board.get_winner" href="#classes.Board.get_winner">get_winner</a></code></li>
 <li><code><a title="classes.Board.move" href="#classes.Board.move">move</a></code></li>
 <li><code><a title="classes.Board.random_move" href="#classes.Board.random_move">random_move</a></code></li>
@@ -916,6 +1187,8 @@ Returns the coordinates of the move.</p></div>
 <h4><code><a title="classes.TicTacTocIA" href="#classes.TicTacTocIA">TicTacTocIA</a></code></h4>
 <ul class="">
 <li><code><a title="classes.TicTacTocIA.best_move" href="#classes.TicTacTocIA.best_move">best_move</a></code></li>
+<li><code><a title="classes.TicTacTocIA.move_new" href="#classes.TicTacTocIA.move_new">move_new</a></code></li>
+<li><code><a title="classes.TicTacTocIA.valuate_board" href="#classes.TicTacTocIA.valuate_board">valuate_board</a></code></li>
 </ul>
 </li>
 <li>

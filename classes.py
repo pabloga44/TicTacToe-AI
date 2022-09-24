@@ -245,19 +245,23 @@ class TicTacTocIA():
 
         return new
     
-    def _swap_team(self, team: int) -> int:
-        """Internal function that changes the team each depth level"""
-
-        if team == 1: return 2
-        elif team == 2: return 1
-        else:
-            raise Exception("Incorrect team.")
 
     def valuate_board(self, A: Board, team: int, depth: int, max_depth: int) -> tuple[tuple[int,int], list, int] :
+        """Recursive function that evaluates each board according to one team.
+        Arguments:
+            - A: board to evaluate. Changes each time.
+            - Team: team to make the first move, evaluate according to it. Constant.
+            - Depth: level of recursion of each iteration. Changes each time.
+            - Max depth: maximum level of reach. Constant.
+
+        Returns:
+            - I and J (zipped): lists of possible next moves coordinates.
+            - Vals: evaluation of each next board, in the same order as I and J.
+            - Value: final evaluation of A. 
+            """
+        
         # Iterate over empty squares
         I, J = np.where(A.board == 0)
-
-        
 
         # Check the game didn't finish
         winner_team = A.get_winner()
@@ -282,7 +286,6 @@ class TicTacTocIA():
         #A.show()
         #print("  "*depth +  "Team: "+ str(team)+ ", Depth: " + str(depth) + ", Value: "+ str(value))
         
-
         return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
 
     def best_move(self, board: Board, max_depth = 9) -> tuple[int, int]:
@@ -304,7 +307,5 @@ class TicTacTocIA():
         I, J = list(zip(*coordinates))
         
         # Choose one move among all the bests
-        #print(np.where(vals == value))
-        #print(vals)
         index = np.random.choice(np.where(vals == value)[0])
         return I[index], J[index]

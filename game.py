@@ -4,13 +4,24 @@ import sys
 
 def main(argv, arc):
 
+    # Set game mode
     if (arc > 1):
-        print(argv[1])
         if(argv[1] == "auto"): user = False
-        else:
-            raise Exception("Invalid argument.")
-    else:
-        user = True
+        elif(argv[1] == "user"): user = True
+        else: raise Exception("Invalid argument no 2.")
+    else: user = True
+
+    # Set IA machine
+    if (arc > 2):
+        if(argv[2] == "dummy"): AI = False
+        elif(argv[2] == "AI"): 
+            AI = True
+            IA = TicTacTocIA()
+        else: raise Exception("Invalid argument no 3.")
+    else: 
+        AI = True
+        IA = TicTacTocIA()
+
 
     # Introduction to the game
     if user:
@@ -41,12 +52,18 @@ def main(argv, arc):
 
             else: # Play against itself (user also machine)
                 print("My turn:")
-                board.random_move()
+                if AI: 
+                    i,j = IA.best_move(board, max_depth=6)
+                    board.move(i,j)
+                else: board.random_move()
 
         else: # Machine moves
             print("My turn, let me think...")
-            if user: time.sleep(1.5)
-            board.random_move()
+            if user and not AI: time.sleep(1.5)
+            if AI: 
+                i,j = IA.best_move(board, max_depth=6)
+                board.move(i,j)
+            else: board.random_move()
             
         board.show()
         if user: time.sleep(0.5)
