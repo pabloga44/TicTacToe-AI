@@ -103,12 +103,7 @@ class Board:
             raise OccupiedSquare(&#34;Error in move: selected square is already filled.&#34;)
 
         # Calculate whose turn is it
-        nX = sum(sum(self.board == 1))
-        nO = sum(sum(self.board == 2))
-
-        if ( (nX - nO) == 1 ): turn = 2 # Turn for Os
-        elif ( nX == nO ): turn = 1 # Turn for Xs
-        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+        turn = self.get_next_team()
 
         # Fill square
         self.board[i,j] = turn
@@ -163,10 +158,24 @@ class Board:
         else: # 3 or more winner lines
             raise WrongBoard(&#34;Error in board_winner - more than 2 winner lines.&#34;)
 
-    def copy(self): # -&gt; Board (Its not trivial to write)
+    def copy(self): # -&gt; Board (Its not trivial to write the name of the class itself)
+        &#34;&#34;&#34;Returns a copy of the board.&#34;&#34;&#34;
+
         new = Board()
         new.set_board(self.board)
         return new
+
+    def get_next_team(self):
+        &#34;&#34;&#34;Calculate whose turn is next (X or O).&#34;&#34;&#34;
+
+        nX = sum(sum(self.board == 1))
+        nO = sum(sum(self.board == 2))
+
+        if ( (nX - nO) == 1 ): return 2 # Turn for Os
+        elif ( nX == nO ): return 1 # Turn for Xs
+        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+        
+
 
 class GameCommunication:
     &#34;&#34;&#34;The GameCommunication class contains all the functions related with asking and showing information to the user during the game.&#34;&#34;&#34;
@@ -217,11 +226,14 @@ class GameCommunication:
 
         print(&#34;\nBy Pablo Gallego Adrián.&#34;)
 
-    def user_introduction():
+    def user_introduction(AI):
         &#34;&#34;&#34;Introduce the game for the user, asking name and team.&#34;&#34;&#34;
 
         _t = 1 # Waiting time between sentences in s
         print(&#34;\n\nWelcome to the TicTacToe AI test game.\n&#34;)
+        if AI: print(&#34;You are playing against the trained AI.\n&#34;)
+        else: print(&#34;You are playing against the dummy machine.\n&#34;)
+
         time.sleep(_t)
 
         name = input(&#34;Introduce your name: &#34;)
@@ -248,10 +260,12 @@ class GameCommunication:
 
         return name, player_team, player_turn
 
-    def auto_introduction():
+    def auto_introduction(AI):
         &#34;&#34;&#34;Introduce the game without user. &#34;&#34;&#34;
 
         print(&#34;Hello, this is an auto round of the game!\n&#34;)
+        if AI: print(&#34;Mode: trained AI.\n&#34;)
+        else: print(&#34;Mode: dummy machine.\n&#34;)
 
         name = &#34;me&#34;
         player_team = 1
@@ -273,7 +287,6 @@ class TicTacTocIA():
 
         return new
     
-
     def valuate_board(self, A: Board, team: int, depth: int, max_depth: int) -&gt; tuple[tuple[int,int], list, int] :
         &#34;&#34;&#34;Recursive function that evaluates each board according to one team.
         Arguments:
@@ -281,11 +294,37 @@ class TicTacTocIA():
             - Team: team to make the first move, evaluate according to it. Constant.
             - Depth: level of recursion of each iteration. Changes each time.
             - Max depth: maximum level of reach. Constant.
-
         Returns:
             - I and J (zipped): lists of possible next moves coordinates.
             - Vals: evaluation of each next board, in the same order as I and J.
             - Value: final evaluation of A. 
+            &#34;&#34;&#34;
+        
+        # Iterate over empty squares
+        I, J = np.where(A.board == 0)
+
+        # Check the game didn&#39;t finish
+        winner_team = A.get_winner()
+        vals = np.array([])
+        if ((len(I) == 0) | (winner_team != 0) | (depth &gt;= max_depth)): # Leaf node
+
+            if (team == winner_team): value = 5
+            elif (winner_team == 0): value = 0
+            else: value = -5
+            
+        else:
+            # If depth par: return max, if depth impar: return min
+            for i, j in zip(I, J):
+                vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+            
+            if (depth % 2 == 0): value = max(vals)
+            else: value =  min(vals)
+        
+        return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
+
+
+    def valuate_board_pruning(self, A: Board, alpha: float, beta: float, team: int, depth: int, max_depth: int) -&gt; tuple[tuple[int,int], list, int] :
+        &#34;&#34;&#34;
             &#34;&#34;&#34;
         
         # Iterate over empty squares
@@ -304,17 +343,35 @@ class TicTacTocIA():
         else:
             # If depth par: return max, if depth impar: return min
             
-            for i, j in zip(I, J):
-                vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+            if (depth % 2 == 0): 
+                value = -np.inf
+                for i, j in zip(I, J):
+                    vals = np.append(vals, self.valuate_board_pruning(self.move_new(A, i, j), alpha, beta, team, depth + 1, max_depth)[2] )
+                    value = max(value, vals[-1])
+
+                    alpha = max(alpha, value)
+                    if (beta &lt;= alpha): 
+                        print(&#34;Break!&#34;)
+                        break
             
-            if (depth % 2 == 0): value = max(vals)
-            else: value =  min(vals)
+            else: 
+                value = np.inf
+                for i, j in zip(I, J):
+                    vals = np.append(vals, self.valuate_board_pruning(self.move_new(A, i, j), alpha, beta, team, depth + 1, max_depth)[2] )
+                    value = min(value, vals[-1])
+
+                    beta = min(beta, value)
+                    if (beta &lt;= alpha): 
+                        print(&#34;Break!&#34;)
+                        break
         
         # Print process
-        #A.show()
-        #print(&#34;  &#34;*depth +  &#34;Team: &#34;+ str(team)+ &#34;, Depth: &#34; + str(depth) + &#34;, Value: &#34;+ str(value))
+        if depth &lt; 10:
+            #A.show()
+            print(&#34;  &#34;*depth +  &#34;Team: &#34;+ str(team)+ &#34;, Depth: &#34; + str(depth) + &#34;, Value: &#34;+ str(value) + &#34;, vals: &#34;+str(vals))
+            print(f&#34;alpha: {alpha}, beta: {beta}&#34;)
         
-        return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
+        return zip(I,J), vals, value # For every iteration we need the last one, the other two are just for the first deph level
 
     def best_move(self, board: Board, max_depth = 9) -&gt; tuple[int, int]:
         &#34;&#34;&#34;Takes one Board object and calculates the next best move for whoever is the next player to move.
@@ -323,17 +380,18 @@ class TicTacTocIA():
         A = board.copy()
 
         # Get team
-        
-        nX = sum(sum(A.board == 1))
-        nO = sum(sum(A.board == 2))
+        team = A.get_next_team()
 
-        if ( (nX - nO) == 1 ): team = 2 # Turn for Os
-        elif ( nX == nO ): team = 1 # Turn for Xs
-        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+        prune = False # TODO: pruning doesn&#39;t work :(
 
-        coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
+        if prune:
+            coordinates, vals, value = self.valuate_board_pruning(A, -np.inf, +np.inf, team, 0, max_depth = max_depth)
+        else :
+            coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
         I, J = list(zip(*coordinates))
         
+        print(vals)
+        print(value)
         # Choose one move among all the bests
         index = np.random.choice(np.where(vals == value)[0])
         return I[index], J[index]</code></pre>
@@ -417,12 +475,7 @@ It contains the necesary methods to create, show and transform the board.</p>
             raise OccupiedSquare(&#34;Error in move: selected square is already filled.&#34;)
 
         # Calculate whose turn is it
-        nX = sum(sum(self.board == 1))
-        nO = sum(sum(self.board == 2))
-
-        if ( (nX - nO) == 1 ): turn = 2 # Turn for Os
-        elif ( nX == nO ): turn = 1 # Turn for Xs
-        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+        turn = self.get_next_team()
 
         # Fill square
         self.board[i,j] = turn
@@ -477,10 +530,22 @@ It contains the necesary methods to create, show and transform the board.</p>
         else: # 3 or more winner lines
             raise WrongBoard(&#34;Error in board_winner - more than 2 winner lines.&#34;)
 
-    def copy(self): # -&gt; Board (Its not trivial to write)
+    def copy(self): # -&gt; Board (Its not trivial to write the name of the class itself)
+        &#34;&#34;&#34;Returns a copy of the board.&#34;&#34;&#34;
+
         new = Board()
         new.set_board(self.board)
-        return new</code></pre>
+        return new
+
+    def get_next_team(self):
+        &#34;&#34;&#34;Calculate whose turn is next (X or O).&#34;&#34;&#34;
+
+        nX = sum(sum(self.board == 1))
+        nO = sum(sum(self.board == 2))
+
+        if ( (nX - nO) == 1 ): return 2 # Turn for Os
+        elif ( nX == nO ): return 1 # Turn for Xs
+        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -488,15 +553,37 @@ It contains the necesary methods to create, show and transform the board.</p>
 <span>def <span class="ident">copy</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a copy of the board.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def copy(self): # -&gt; Board (Its not trivial to write)
+<pre><code class="python">def copy(self): # -&gt; Board (Its not trivial to write the name of the class itself)
+    &#34;&#34;&#34;Returns a copy of the board.&#34;&#34;&#34;
+
     new = Board()
     new.set_board(self.board)
     return new</code></pre>
+</details>
+</dd>
+<dt id="classes.Board.get_next_team"><code class="name flex">
+<span>def <span class="ident">get_next_team</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate whose turn is next (X or O).</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_next_team(self):
+    &#34;&#34;&#34;Calculate whose turn is next (X or O).&#34;&#34;&#34;
+
+    nX = sum(sum(self.board == 1))
+    nO = sum(sum(self.board == 2))
+
+    if ( (nX - nO) == 1 ): return 2 # Turn for Os
+    elif ( nX == nO ): return 1 # Turn for Xs
+    else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)</code></pre>
 </details>
 </dd>
 <dt id="classes.Board.get_winner"><code class="name flex">
@@ -562,12 +649,7 @@ It contains the necesary methods to create, show and transform the board.</p>
         raise OccupiedSquare(&#34;Error in move: selected square is already filled.&#34;)
 
     # Calculate whose turn is it
-    nX = sum(sum(self.board == 1))
-    nO = sum(sum(self.board == 2))
-
-    if ( (nX - nO) == 1 ): turn = 2 # Turn for Os
-    elif ( nX == nO ): turn = 1 # Turn for Xs
-    else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+    turn = self.get_next_team()
 
     # Fill square
     self.board[i,j] = turn</code></pre>
@@ -714,11 +796,14 @@ This function should be private and never used by the user.</p></div>
 
         print(&#34;\nBy Pablo Gallego Adrián.&#34;)
 
-    def user_introduction():
+    def user_introduction(AI):
         &#34;&#34;&#34;Introduce the game for the user, asking name and team.&#34;&#34;&#34;
 
         _t = 1 # Waiting time between sentences in s
         print(&#34;\n\nWelcome to the TicTacToe AI test game.\n&#34;)
+        if AI: print(&#34;You are playing against the trained AI.\n&#34;)
+        else: print(&#34;You are playing against the dummy machine.\n&#34;)
+
         time.sleep(_t)
 
         name = input(&#34;Introduce your name: &#34;)
@@ -745,10 +830,12 @@ This function should be private and never used by the user.</p></div>
 
         return name, player_team, player_turn
 
-    def auto_introduction():
+    def auto_introduction(AI):
         &#34;&#34;&#34;Introduce the game without user. &#34;&#34;&#34;
 
         print(&#34;Hello, this is an auto round of the game!\n&#34;)
+        if AI: print(&#34;Mode: trained AI.\n&#34;)
+        else: print(&#34;Mode: dummy machine.\n&#34;)
 
         name = &#34;me&#34;
         player_team = 1
@@ -758,7 +845,7 @@ This function should be private and never used by the user.</p></div>
 <h3>Methods</h3>
 <dl>
 <dt id="classes.GameCommunication.auto_introduction"><code class="name flex">
-<span>def <span class="ident">auto_introduction</span></span>(<span>)</span>
+<span>def <span class="ident">auto_introduction</span></span>(<span>AI)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Introduce the game without user.</p></div>
@@ -766,10 +853,12 @@ This function should be private and never used by the user.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def auto_introduction():
+<pre><code class="python">def auto_introduction(AI):
     &#34;&#34;&#34;Introduce the game without user. &#34;&#34;&#34;
 
     print(&#34;Hello, this is an auto round of the game!\n&#34;)
+    if AI: print(&#34;Mode: trained AI.\n&#34;)
+    else: print(&#34;Mode: dummy machine.\n&#34;)
 
     name = &#34;me&#34;
     player_team = 1
@@ -854,7 +943,7 @@ This function should be private and never used by the user.</p></div>
 </details>
 </dd>
 <dt id="classes.GameCommunication.user_introduction"><code class="name flex">
-<span>def <span class="ident">user_introduction</span></span>(<span>)</span>
+<span>def <span class="ident">user_introduction</span></span>(<span>AI)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Introduce the game for the user, asking name and team.</p></div>
@@ -862,11 +951,14 @@ This function should be private and never used by the user.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def user_introduction():
+<pre><code class="python">def user_introduction(AI):
     &#34;&#34;&#34;Introduce the game for the user, asking name and team.&#34;&#34;&#34;
 
     _t = 1 # Waiting time between sentences in s
     print(&#34;\n\nWelcome to the TicTacToe AI test game.\n&#34;)
+    if AI: print(&#34;You are playing against the trained AI.\n&#34;)
+    else: print(&#34;You are playing against the dummy machine.\n&#34;)
+
     time.sleep(_t)
 
     name = input(&#34;Introduce your name: &#34;)
@@ -939,7 +1031,6 @@ This function should be private and never used by the user.</p></div>
 
         return new
     
-
     def valuate_board(self, A: Board, team: int, depth: int, max_depth: int) -&gt; tuple[tuple[int,int], list, int] :
         &#34;&#34;&#34;Recursive function that evaluates each board according to one team.
         Arguments:
@@ -947,11 +1038,37 @@ This function should be private and never used by the user.</p></div>
             - Team: team to make the first move, evaluate according to it. Constant.
             - Depth: level of recursion of each iteration. Changes each time.
             - Max depth: maximum level of reach. Constant.
-
         Returns:
             - I and J (zipped): lists of possible next moves coordinates.
             - Vals: evaluation of each next board, in the same order as I and J.
             - Value: final evaluation of A. 
+            &#34;&#34;&#34;
+        
+        # Iterate over empty squares
+        I, J = np.where(A.board == 0)
+
+        # Check the game didn&#39;t finish
+        winner_team = A.get_winner()
+        vals = np.array([])
+        if ((len(I) == 0) | (winner_team != 0) | (depth &gt;= max_depth)): # Leaf node
+
+            if (team == winner_team): value = 5
+            elif (winner_team == 0): value = 0
+            else: value = -5
+            
+        else:
+            # If depth par: return max, if depth impar: return min
+            for i, j in zip(I, J):
+                vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+            
+            if (depth % 2 == 0): value = max(vals)
+            else: value =  min(vals)
+        
+        return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
+
+
+    def valuate_board_pruning(self, A: Board, alpha: float, beta: float, team: int, depth: int, max_depth: int) -&gt; tuple[tuple[int,int], list, int] :
+        &#34;&#34;&#34;
             &#34;&#34;&#34;
         
         # Iterate over empty squares
@@ -970,17 +1087,35 @@ This function should be private and never used by the user.</p></div>
         else:
             # If depth par: return max, if depth impar: return min
             
-            for i, j in zip(I, J):
-                vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+            if (depth % 2 == 0): 
+                value = -np.inf
+                for i, j in zip(I, J):
+                    vals = np.append(vals, self.valuate_board_pruning(self.move_new(A, i, j), alpha, beta, team, depth + 1, max_depth)[2] )
+                    value = max(value, vals[-1])
+
+                    alpha = max(alpha, value)
+                    if (beta &lt;= alpha): 
+                        print(&#34;Break!&#34;)
+                        break
             
-            if (depth % 2 == 0): value = max(vals)
-            else: value =  min(vals)
+            else: 
+                value = np.inf
+                for i, j in zip(I, J):
+                    vals = np.append(vals, self.valuate_board_pruning(self.move_new(A, i, j), alpha, beta, team, depth + 1, max_depth)[2] )
+                    value = min(value, vals[-1])
+
+                    beta = min(beta, value)
+                    if (beta &lt;= alpha): 
+                        print(&#34;Break!&#34;)
+                        break
         
         # Print process
-        #A.show()
-        #print(&#34;  &#34;*depth +  &#34;Team: &#34;+ str(team)+ &#34;, Depth: &#34; + str(depth) + &#34;, Value: &#34;+ str(value))
+        if depth &lt; 10:
+            #A.show()
+            print(&#34;  &#34;*depth +  &#34;Team: &#34;+ str(team)+ &#34;, Depth: &#34; + str(depth) + &#34;, Value: &#34;+ str(value) + &#34;, vals: &#34;+str(vals))
+            print(f&#34;alpha: {alpha}, beta: {beta}&#34;)
         
-        return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
+        return zip(I,J), vals, value # For every iteration we need the last one, the other two are just for the first deph level
 
     def best_move(self, board: Board, max_depth = 9) -&gt; tuple[int, int]:
         &#34;&#34;&#34;Takes one Board object and calculates the next best move for whoever is the next player to move.
@@ -989,17 +1124,18 @@ This function should be private and never used by the user.</p></div>
         A = board.copy()
 
         # Get team
-        
-        nX = sum(sum(A.board == 1))
-        nO = sum(sum(A.board == 2))
+        team = A.get_next_team()
 
-        if ( (nX - nO) == 1 ): team = 2 # Turn for Os
-        elif ( nX == nO ): team = 1 # Turn for Xs
-        else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+        prune = False # TODO: pruning doesn&#39;t work :(
 
-        coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
+        if prune:
+            coordinates, vals, value = self.valuate_board_pruning(A, -np.inf, +np.inf, team, 0, max_depth = max_depth)
+        else :
+            coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
         I, J = list(zip(*coordinates))
         
+        print(vals)
+        print(value)
         # Choose one move among all the bests
         index = np.random.choice(np.where(vals == value)[0])
         return I[index], J[index]</code></pre>
@@ -1023,17 +1159,18 @@ Returns the coordinates of the move.</p></div>
     A = board.copy()
 
     # Get team
-    
-    nX = sum(sum(A.board == 1))
-    nO = sum(sum(A.board == 2))
+    team = A.get_next_team()
 
-    if ( (nX - nO) == 1 ): team = 2 # Turn for Os
-    elif ( nX == nO ): team = 1 # Turn for Xs
-    else: raise WrongBoard(&#34;Error in move: incorrect board.&#34;)
+    prune = False # TODO: pruning doesn&#39;t work :(
 
-    coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
+    if prune:
+        coordinates, vals, value = self.valuate_board_pruning(A, -np.inf, +np.inf, team, 0, max_depth = max_depth)
+    else :
+        coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
     I, J = list(zip(*coordinates))
     
+    print(vals)
+    print(value)
     # Choose one move among all the bests
     index = np.random.choice(np.where(vals == value)[0])
     return I[index], J[index]</code></pre>
@@ -1090,11 +1227,46 @@ Different from Board.move() that modifies the object itself.</p></div>
         - Team: team to make the first move, evaluate according to it. Constant.
         - Depth: level of recursion of each iteration. Changes each time.
         - Max depth: maximum level of reach. Constant.
-
     Returns:
         - I and J (zipped): lists of possible next moves coordinates.
         - Vals: evaluation of each next board, in the same order as I and J.
         - Value: final evaluation of A. 
+        &#34;&#34;&#34;
+    
+    # Iterate over empty squares
+    I, J = np.where(A.board == 0)
+
+    # Check the game didn&#39;t finish
+    winner_team = A.get_winner()
+    vals = np.array([])
+    if ((len(I) == 0) | (winner_team != 0) | (depth &gt;= max_depth)): # Leaf node
+
+        if (team == winner_team): value = 5
+        elif (winner_team == 0): value = 0
+        else: value = -5
+        
+    else:
+        # If depth par: return max, if depth impar: return min
+        for i, j in zip(I, J):
+            vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+        
+        if (depth % 2 == 0): value = max(vals)
+        else: value =  min(vals)
+    
+    return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level</code></pre>
+</details>
+</dd>
+<dt id="classes.TicTacTocIA.valuate_board_pruning"><code class="name flex">
+<span>def <span class="ident">valuate_board_pruning</span></span>(<span>self, A: <a title="classes.Board" href="#classes.Board">Board</a>, alpha: float, beta: float, team: int, depth: int, max_depth: int) ‑> tuple[tuple[int, int], list, int]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def valuate_board_pruning(self, A: Board, alpha: float, beta: float, team: int, depth: int, max_depth: int) -&gt; tuple[tuple[int,int], list, int] :
+    &#34;&#34;&#34;
         &#34;&#34;&#34;
     
     # Iterate over empty squares
@@ -1113,17 +1285,35 @@ Different from Board.move() that modifies the object itself.</p></div>
     else:
         # If depth par: return max, if depth impar: return min
         
-        for i, j in zip(I, J):
-            vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+        if (depth % 2 == 0): 
+            value = -np.inf
+            for i, j in zip(I, J):
+                vals = np.append(vals, self.valuate_board_pruning(self.move_new(A, i, j), alpha, beta, team, depth + 1, max_depth)[2] )
+                value = max(value, vals[-1])
+
+                alpha = max(alpha, value)
+                if (beta &lt;= alpha): 
+                    print(&#34;Break!&#34;)
+                    break
         
-        if (depth % 2 == 0): value = max(vals)
-        else: value =  min(vals)
+        else: 
+            value = np.inf
+            for i, j in zip(I, J):
+                vals = np.append(vals, self.valuate_board_pruning(self.move_new(A, i, j), alpha, beta, team, depth + 1, max_depth)[2] )
+                value = min(value, vals[-1])
+
+                beta = min(beta, value)
+                if (beta &lt;= alpha): 
+                    print(&#34;Break!&#34;)
+                    break
     
     # Print process
-    #A.show()
-    #print(&#34;  &#34;*depth +  &#34;Team: &#34;+ str(team)+ &#34;, Depth: &#34; + str(depth) + &#34;, Value: &#34;+ str(value))
+    if depth &lt; 10:
+        #A.show()
+        print(&#34;  &#34;*depth +  &#34;Team: &#34;+ str(team)+ &#34;, Depth: &#34; + str(depth) + &#34;, Value: &#34;+ str(value) + &#34;, vals: &#34;+str(vals))
+        print(f&#34;alpha: {alpha}, beta: {beta}&#34;)
     
-    return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level</code></pre>
+    return zip(I,J), vals, value # For every iteration we need the last one, the other two are just for the first deph level</code></pre>
 </details>
 </dd>
 </dl>
@@ -1163,6 +1353,7 @@ Different from Board.move() that modifies the object itself.</p></div>
 <h4><code><a title="classes.Board" href="#classes.Board">Board</a></code></h4>
 <ul class="two-column">
 <li><code><a title="classes.Board.copy" href="#classes.Board.copy">copy</a></code></li>
+<li><code><a title="classes.Board.get_next_team" href="#classes.Board.get_next_team">get_next_team</a></code></li>
 <li><code><a title="classes.Board.get_winner" href="#classes.Board.get_winner">get_winner</a></code></li>
 <li><code><a title="classes.Board.move" href="#classes.Board.move">move</a></code></li>
 <li><code><a title="classes.Board.random_move" href="#classes.Board.random_move">random_move</a></code></li>
@@ -1189,6 +1380,7 @@ Different from Board.move() that modifies the object itself.</p></div>
 <li><code><a title="classes.TicTacTocIA.best_move" href="#classes.TicTacTocIA.best_move">best_move</a></code></li>
 <li><code><a title="classes.TicTacTocIA.move_new" href="#classes.TicTacTocIA.move_new">move_new</a></code></li>
 <li><code><a title="classes.TicTacTocIA.valuate_board" href="#classes.TicTacTocIA.valuate_board">valuate_board</a></code></li>
+<li><code><a title="classes.TicTacTocIA.valuate_board_pruning" href="#classes.TicTacTocIA.valuate_board_pruning">valuate_board_pruning</a></code></li>
 </ul>
 </li>
 <li>
