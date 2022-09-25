@@ -58,7 +58,7 @@ def main(user, AI):
         # End of while
 
     GameCommunication.show_winner_end(winner, player_team=player_team, name=name)
-
+    return winner
 
 
 if __name__ == "__main__":
