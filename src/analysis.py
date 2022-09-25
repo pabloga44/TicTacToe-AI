@@ -1,8 +1,8 @@
 # Performance analysis
-from tkinter import N
 from classes import *
 import game
 import time
+
 
 import os, sys
 

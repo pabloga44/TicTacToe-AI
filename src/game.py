@@ -1,6 +1,5 @@
 # Game script
 from classes import *
-import sys
 import argparse
 
 def main(user, AI):
