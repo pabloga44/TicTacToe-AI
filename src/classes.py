@@ -362,8 +362,8 @@ class TicTacTocIA():
             coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
         I, J = list(zip(*coordinates))
         
-        print(vals)
-        print(value)
+        #print(vals)
+        #print(value)
         # Choose one move among all the bests
         index = np.random.choice(np.where(vals == value)[0])
         return I[index], J[index]
