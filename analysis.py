@@ -18,7 +18,7 @@ class HiddenPrints:
 
 def main():
 
-    N_dummy = 2000
+    N_dummy = 2
     duration = 0
 
     
@@ -40,7 +40,7 @@ def main():
     print(f"  Ties: {np.sum(winners == 0)} -> ({100* np.sum(winners == 0)/N_dummy}%).")
 
 
-    N_IA = 10
+    N_IA = 2
     duration = 0
 
     

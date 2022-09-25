@@ -37,7 +37,7 @@ def main(user, AI):
             else: # Play against itself (user also machine)
                 print("My turn:")
                 if AI: 
-                    i,j = IA.best_move(board, max_depth=6)
+                    i,j = IA.best_move(board, max_depth=8)
                     board.move(i,j)
                 else: board.random_move()
 
@@ -45,7 +45,7 @@ def main(user, AI):
             print("My turn, let me think...")
             if user and not AI: time.sleep(1.5)
             if AI: 
-                i,j = IA.best_move(board, max_depth=6)
+                i,j = IA.best_move(board, max_depth=8)
                 board.move(i,j)
             else: board.random_move()
             
