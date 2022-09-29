@@ -18,7 +18,7 @@ class HiddenPrints:
 
 def main():
 
-    N_dummy = 2
+    N_dummy = 2000
     duration = 0
 
     
