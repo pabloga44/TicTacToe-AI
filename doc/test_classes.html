@@ -44,7 +44,7 @@ def test_board_creation():
 def test_input_coordinates():
     &#34;&#34;&#34;Test the inputation of coordinates by the user&#34;&#34;&#34;
 
-    sys.stdin = open(&#34;test_inputs/test_input_coordinates.txt&#34;) # We choose the same name for organization
+    sys.stdin = open(&#34;src/test_inputs/test_input_coordinates.txt&#34;) # We choose the same name for organization
     i,j =  GameCommunication.input_coordinates()
     assert i in [0,1,2]
     assert j in [0,1,2]
@@ -141,7 +141,7 @@ def test_winner():
 def test_full_auto_game():
     &#34;&#34;&#34;Run a full game of the machine against itself, just to check that nothing crashes.&#34;&#34;&#34;
     
-    game.main([&#34;game.py&#34;,&#34;auto&#34;], 2)
+    game.main(user = False, AI = True)
     return</code></pre>
 </details>
 </section>
@@ -184,7 +184,7 @@ and the two ways of visualization don't crash</p></div>
 <pre><code class="python">def test_full_auto_game():
     &#34;&#34;&#34;Run a full game of the machine against itself, just to check that nothing crashes.&#34;&#34;&#34;
     
-    game.main([&#34;game.py&#34;,&#34;auto&#34;], 2)
+    game.main(user = False, AI = True)
     return</code></pre>
 </details>
 </dd>
@@ -200,7 +200,7 @@ and the two ways of visualization don't crash</p></div>
 <pre><code class="python">def test_input_coordinates():
     &#34;&#34;&#34;Test the inputation of coordinates by the user&#34;&#34;&#34;
 
-    sys.stdin = open(&#34;test_inputs/test_input_coordinates.txt&#34;) # We choose the same name for organization
+    sys.stdin = open(&#34;src/test_inputs/test_input_coordinates.txt&#34;) # We choose the same name for organization
     i,j =  GameCommunication.input_coordinates()
     assert i in [0,1,2]
     assert j in [0,1,2]

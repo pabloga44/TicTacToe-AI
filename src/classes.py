@@ -75,12 +75,7 @@ class Board:
             raise OccupiedSquare("Error in move: selected square is already filled.")
 
         # Calculate whose turn is it
-        nX = sum(sum(self.board == 1))
-        nO = sum(sum(self.board == 2))
-
-        if ( (nX - nO) == 1 ): turn = 2 # Turn for Os
-        elif ( nX == nO ): turn = 1 # Turn for Xs
-        else: raise WrongBoard("Error in move: incorrect board.")
+        turn = self.get_next_team()
 
         # Fill square
         self.board[i,j] = turn
@@ -135,10 +130,24 @@ class Board:
         else: # 3 or more winner lines
             raise WrongBoard("Error in board_winner - more than 2 winner lines.")
 
-    def copy(self): # -> Board (Its not trivial to write)
+    def copy(self): # -> Board (Its not trivial to write the name of the class itself)
+        """Returns a copy of the board."""
+
         new = Board()
         new.set_board(self.board)
         return new
+
+    def get_next_team(self):
+        """Calculate whose turn is next (X or O)."""
+
+        nX = sum(sum(self.board == 1))
+        nO = sum(sum(self.board == 2))
+
+        if ( (nX - nO) == 1 ): return 2 # Turn for Os
+        elif ( nX == nO ): return 1 # Turn for Xs
+        else: raise WrongBoard("Error in move: incorrect board.")
+        
+
 
 class GameCommunication:
     """The GameCommunication class contains all the functions related with asking and showing information to the user during the game."""
@@ -250,7 +259,6 @@ class TicTacTocIA():
 
         return new
     
-
     def valuate_board(self, A: Board, team: int, depth: int, max_depth: int) -> tuple[tuple[int,int], list, int] :
         """Recursive function that evaluates each board according to one team.
         Arguments:
@@ -258,11 +266,37 @@ class TicTacTocIA():
             - Team: team to make the first move, evaluate according to it. Constant.
             - Depth: level of recursion of each iteration. Changes each time.
             - Max depth: maximum level of reach. Constant.
-
         Returns:
             - I and J (zipped): lists of possible next moves coordinates.
             - Vals: evaluation of each next board, in the same order as I and J.
             - Value: final evaluation of A. 
+            """
+        
+        # Iterate over empty squares
+        I, J = np.where(A.board == 0)
+
+        # Check the game didn't finish
+        winner_team = A.get_winner()
+        vals = np.array([])
+        if ((len(I) == 0) | (winner_team != 0) | (depth >= max_depth)): # Leaf node
+
+            if (team == winner_team): value = 5
+            elif (winner_team == 0): value = 0
+            else: value = -5
+            
+        else:
+            # If depth par: return max, if depth impar: return min
+            for i, j in zip(I, J):
+                vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+            
+            if (depth % 2 == 0): value = max(vals)
+            else: value =  min(vals)
+        
+        return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
+
+
+    def valuate_board_pruning(self, A: Board, alpha: float, beta: float, team: int, depth: int, max_depth: int) -> tuple[tuple[int,int], list, int] :
+        """
             """
         
         # Iterate over empty squares
@@ -281,17 +315,35 @@ class TicTacTocIA():
         else:
             # If depth par: return max, if depth impar: return min
             
-            for i, j in zip(I, J):
-                vals = np.append(vals, self.valuate_board(self.move_new(A, i, j), team, depth + 1, max_depth)[2] )
+            if (depth % 2 == 0): 
+                value = -np.inf
+                for i, j in zip(I, J):
+                    vals = np.append(vals, self.valuate_board_pruning(self.move_new(A, i, j), alpha, beta, team, depth + 1, max_depth)[2] )
+                    value = max(value, vals[-1])
+
+                    alpha = max(alpha, value)
+                    if (beta <= alpha): 
+                        print("Break!")
+                        break
             
-            if (depth % 2 == 0): value = max(vals)
-            else: value =  min(vals)
+            else: 
+                value = np.inf
+                for i, j in zip(I, J):
+                    vals = np.append(vals, self.valuate_board_pruning(self.move_new(A, i, j), alpha, beta, team, depth + 1, max_depth)[2] )
+                    value = min(value, vals[-1])
+
+                    beta = min(beta, value)
+                    if (beta <= alpha): 
+                        print("Break!")
+                        break
         
         # Print process
-        #A.show()
-        #print("  "*depth +  "Team: "+ str(team)+ ", Depth: " + str(depth) + ", Value: "+ str(value))
+        if depth < 10:
+            #A.show()
+            print("  "*depth +  "Team: "+ str(team)+ ", Depth: " + str(depth) + ", Value: "+ str(value) + ", vals: "+str(vals))
+            print(f"alpha: {alpha}, beta: {beta}")
         
-        return zip(I,J), vals, value # For ebery iteration we need the last one, the other two are just for the first deph level
+        return zip(I,J), vals, value # For every iteration we need the last one, the other two are just for the first deph level
 
     def best_move(self, board: Board, max_depth = 9) -> tuple[int, int]:
         """Takes one Board object and calculates the next best move for whoever is the next player to move.
@@ -300,17 +352,18 @@ class TicTacTocIA():
         A = board.copy()
 
         # Get team
-        
-        nX = sum(sum(A.board == 1))
-        nO = sum(sum(A.board == 2))
+        team = A.get_next_team()
 
-        if ( (nX - nO) == 1 ): team = 2 # Turn for Os
-        elif ( nX == nO ): team = 1 # Turn for Xs
-        else: raise WrongBoard("Error in move: incorrect board.")
+        prune = False # TODO: pruning doesn't work :(
 
-        coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
+        if prune:
+            coordinates, vals, value = self.valuate_board_pruning(A, -np.inf, +np.inf, team, 0, max_depth = max_depth)
+        else :
+            coordinates, vals, value = self.valuate_board(A, team, 0, max_depth = max_depth)
         I, J = list(zip(*coordinates))
         
+        #print(vals)
+        #print(value)
         # Choose one move among all the bests
         index = np.random.choice(np.where(vals == value)[0])
         return I[index], J[index]

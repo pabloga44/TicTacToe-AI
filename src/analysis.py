@@ -1,8 +1,8 @@
 # Performance analysis
-from tkinter import N
 from classes import *
 import game
 import time
+
 
 import os, sys
 
@@ -40,7 +40,7 @@ def main():
     print(f"  Ties: {np.sum(winners == 0)} -> ({100* np.sum(winners == 0)/N_dummy}%).")
 
 
-    N_IA = 10
+    N_IA = 2
     duration = 0
 
     

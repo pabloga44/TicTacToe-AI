@@ -28,34 +28,17 @@
 </summary>
 <pre><code class="python"># Game script
 from classes import *
-import sys
+import argparse
 
-def main(argv, arc):
+def main(user, AI):
 
-    # Set game mode
-    if (arc &gt; 1):
-        if(argv[1] == &#34;auto&#34;): user = False
-        elif(argv[1] == &#34;user&#34;): user = True
-        else: raise Exception(&#34;Invalid argument no 2.&#34;)
-    else: user = True
-
-    # Set IA machine
-    if (arc &gt; 2):
-        if(argv[2] == &#34;dummy&#34;): AI = False
-        elif(argv[2] == &#34;AI&#34;): 
-            AI = True
-            IA = TicTacTocIA()
-        else: raise Exception(&#34;Invalid argument no 3.&#34;)
-    else: 
-        AI = True
-        IA = TicTacTocIA()
-
+    if AI: IA = TicTacTocIA()
 
     # Introduction to the game
     if user:
-        name, player_team, player_turn = GameCommunication.user_introduction()
+        name, player_team, player_turn = GameCommunication.user_introduction(AI)
     else:
-        name, player_team, player_turn = GameCommunication.auto_introduction()
+        name, player_team, player_turn = GameCommunication.auto_introduction(AI)
 
     # Start the game
     board = Board()
@@ -81,7 +64,7 @@ def main(argv, arc):
             else: # Play against itself (user also machine)
                 print(&#34;My turn:&#34;)
                 if AI: 
-                    i,j = IA.best_move(board, max_depth=6)
+                    i,j = IA.best_move(board, max_depth=8)
                     board.move(i,j)
                 else: board.random_move()
 
@@ -89,7 +72,7 @@ def main(argv, arc):
             print(&#34;My turn, let me think...&#34;)
             if user and not AI: time.sleep(1.5)
             if AI: 
-                i,j = IA.best_move(board, max_depth=6)
+                i,j = IA.best_move(board, max_depth=8)
                 board.move(i,j)
             else: board.random_move()
             
@@ -102,11 +85,27 @@ def main(argv, arc):
         # End of while
 
     GameCommunication.show_winner_end(winner, player_team=player_team, name=name)
-
+    return winner
 
 
 if __name__ == &#34;__main__&#34;:
-    main(sys.argv, len(sys.argv))</code></pre>
+
+    # Argument parser
+    parser = argparse.ArgumentParser()
+    parser.add_argument(&#34;-mode&#34;, type=str, default=&#34;user&#34;, help=&#34;Player mode: user (play against the machine), auto (machine against itself)&#34;)
+    parser.add_argument(&#34;-level&#34;, type=str, default=&#34;IA&#34;, help=&#34;Machine level of dificulty: dummy (random moves), IA (perfect machine)&#34;)
+    args = parser.parse_args()
+
+    # Using the arguments
+    if(args.mode == &#34;auto&#34;): user = False
+    elif(args.mode == &#34;user&#34;): user = True
+    else: raise Exception(&#34;Invalid argument mode.&#34;)
+
+    if(args.level == &#34;dummy&#34;): AI = False
+    elif(args.level == &#34;IA&#34;):  AI = True
+    else: raise Exception(&#34;Invalid argument level.&#34;)
+
+    main(user, AI)</code></pre>
 </details>
 </section>
 <section>
@@ -117,7 +116,7 @@ if __name__ == &#34;__main__&#34;:
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="game.main"><code class="name flex">
-<span>def <span class="ident">main</span></span>(<span>argv, arc)</span>
+<span>def <span class="ident">main</span></span>(<span>user, AI)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -125,32 +124,15 @@ if __name__ == &#34;__main__&#34;:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def main(argv, arc):
+<pre><code class="python">def main(user, AI):
 
-    # Set game mode
-    if (arc &gt; 1):
-        if(argv[1] == &#34;auto&#34;): user = False
-        elif(argv[1] == &#34;user&#34;): user = True
-        else: raise Exception(&#34;Invalid argument no 2.&#34;)
-    else: user = True
-
-    # Set IA machine
-    if (arc &gt; 2):
-        if(argv[2] == &#34;dummy&#34;): AI = False
-        elif(argv[2] == &#34;AI&#34;): 
-            AI = True
-            IA = TicTacTocIA()
-        else: raise Exception(&#34;Invalid argument no 3.&#34;)
-    else: 
-        AI = True
-        IA = TicTacTocIA()
-
+    if AI: IA = TicTacTocIA()
 
     # Introduction to the game
     if user:
-        name, player_team, player_turn = GameCommunication.user_introduction()
+        name, player_team, player_turn = GameCommunication.user_introduction(AI)
     else:
-        name, player_team, player_turn = GameCommunication.auto_introduction()
+        name, player_team, player_turn = GameCommunication.auto_introduction(AI)
 
     # Start the game
     board = Board()
@@ -176,7 +158,7 @@ if __name__ == &#34;__main__&#34;:
             else: # Play against itself (user also machine)
                 print(&#34;My turn:&#34;)
                 if AI: 
-                    i,j = IA.best_move(board, max_depth=6)
+                    i,j = IA.best_move(board, max_depth=8)
                     board.move(i,j)
                 else: board.random_move()
 
@@ -184,7 +166,7 @@ if __name__ == &#34;__main__&#34;:
             print(&#34;My turn, let me think...&#34;)
             if user and not AI: time.sleep(1.5)
             if AI: 
-                i,j = IA.best_move(board, max_depth=6)
+                i,j = IA.best_move(board, max_depth=8)
                 board.move(i,j)
             else: board.random_move()
             
@@ -196,7 +178,8 @@ if __name__ == &#34;__main__&#34;:
         player_turn = not player_turn
         # End of while
 
-    GameCommunication.show_winner_end(winner, player_team=player_team, name=name)</code></pre>
+    GameCommunication.show_winner_end(winner, player_team=player_team, name=name)
+    return winner</code></pre>
 </details>
 </dd>
 </dl>
