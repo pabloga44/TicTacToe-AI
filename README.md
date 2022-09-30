@@ -17,4 +17,5 @@ In the *doc* folder you will find documentation of the code, generated using the
 
 In _requirements.txt_ you will find all the necessary packages to run the application, test it and update the documentation if needed.
 
-*NOTE*: This version is still in process of being completed as the alpha-beta pruning is not fully implemented yet, causing the IA to work significantly slower than it should. We hope that we will be able to solve it soon.
+##NOTE: 
+This version is still in process of being completed as the alpha-beta pruning is not fully implemented yet, causing the IA to work significantly slower than it should. We hope that we will be able to solve it soon.
